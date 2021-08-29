@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Http\Resources;
+
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class PaymentResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function toArray($request)
+    {
+        return [
+            "paid" => $this->paid,
+            "payment_date" => $this->payment_date,
+            "notes" => $this->notes,
+            "restaurant_id" => $this->restaurant_id,
+        ];
+    }
+}
