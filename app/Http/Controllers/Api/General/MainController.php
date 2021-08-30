@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\General;
 
 use App\Models\City;
 use App\Models\Offer;
@@ -23,7 +23,7 @@ use App\Http\Resources\SettingResource;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\DistrictResource;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\AllRestaurantResource;
+use App\Http\Resources\RestaurantResource;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -39,6 +39,12 @@ class MainController extends BaseController
 
     public function restaurants(Request $request)
     {
+
+        $paginate = 10;
+        if ($request->paginate) :
+            $paginate = $request->paginate;
+        endif;
+
         $records = Restaurant::with("comments")->where(function ($q) use ($request) {
             // Search By city_id and name of restaurant
             if ($request->has("city_id")) :
@@ -46,17 +52,16 @@ class MainController extends BaseController
                     $q->where("city_id", $request->city_id);
                 });
             endif;
-
             if ($request->has("name")) :
                 $q->where("name", $request->name);
             endif;
-        })->paginate(20);
+        })->paginate($paginate);
         //  IF No Data
         if ($records->total() == 0) {
             return $this->responseJsonFalse();
         }
         return $this->responseJson("1", "تم الامر", [
-            "restaurants" =>   AllRestaurantResource::collection($records),
+            "restaurants" =>   RestaurantResource::collection($records),
             "pagination" => $this->getPaginates($records)
         ]);
     }
@@ -68,7 +73,11 @@ class MainController extends BaseController
     public function products(Request $request)
     {
 
-        $records = Product::where("restaurant_id", $request->restaurant_id)->paginate(20);
+        $paginate = 10;
+        if ($request->paginate) :
+            $paginate = $request->paginate;
+        endif;
+        $records = Product::where("restaurant_id", $request->restaurant_id)->paginate($paginate);
         if ($records->total() == 0) {
             return $this->responseJsonFalse();
         }
@@ -88,6 +97,7 @@ class MainController extends BaseController
     public function restaurantInfo(Request $request)
     {
 
+
         $validator = validator()->make($request->all(), ["id" => "required|exists:restaurants,id"]);
         if ($validator->fails()) {
 
@@ -100,11 +110,11 @@ class MainController extends BaseController
             $state = "مفتوح";
         }
         $records = [
-            "الحاله" => $state,
-            "المدينه" => $records->district->city->name,
-            "الحي" =>  $records->district->name,
-            "الحد الأدني " => $records->minimum,
-            "رسوم التوصيل " => $records->delivery_fee,
+            "state" => $state,
+            "city" => $records->district->city->name,
+            "district" =>  $records->district->name,
+            "minimum" => $records->minimum,
+            "delivery_fee" => $records->delivery_fee,
         ];
 
         return $this->responseJson("1", "تم الامر", $records);
@@ -138,10 +148,16 @@ class MainController extends BaseController
 
     public function comments(Request $request)
     {
+
+        $paginate = 10;
+        if ($request->paginate) :
+            $paginate = $request->paginate;
+        endif;
+
         $validator = Validator::make($request->all(), ["restaurant_id" => "required:exists:restaurants,id"]);
         if ($validator->fails()) : return $this->responseJson(0, $validator->errors()->first(), $validator->errors());
         endif;
-        $records = Comment::where("restaurant_id", $request->restaurant_id)->paginate(20);
+        $records = Comment::where("restaurant_id", $request->restaurant_id)->paginate($paginate);
         if ($records->total() == 0) {
             return $this->responseJsonFalse();
         }
@@ -158,6 +174,7 @@ class MainController extends BaseController
 
     public function categories()
     {
+
         $record =  Category::all();
         if (!$record) {
             return $this->responseJsonFalse();
@@ -203,7 +220,12 @@ class MainController extends BaseController
             return $this->responseJson("0", $validator->errors()->first(), $validator->errors());
         endif;
 
-        $records = Offer::where("restaurant_id", $request->restaurant_id)->orderBy("created_at")->paginate(20);
+        $paginate = 10;
+        if ($request->paginate) :
+            $paginate = $request->paginate;
+        endif;
+
+        $records = Offer::where("restaurant_id", $request->restaurant_id)->orderBy("created_at")->paginate($paginate);
         return $this->responseJson("1", "تم الامر ", [
             "offers" => OfferResource::collection($records),
             "pagination" => $this->getPaginates($records)
@@ -244,7 +266,6 @@ class MainController extends BaseController
 
 
         $rules = [
-            "about_us" => "nullable",
             "commission" => "nullable|numeric|between:0,1",
             "num_bank_alahli" => "integer|nullable",
             "num_bank_alrakhi" => "integer|nullable",
@@ -255,28 +276,9 @@ class MainController extends BaseController
         if ($validator->fails()) :
             return $this->responseJson("0",  $validator->errors()->first(), $validator->errors());
         endif;
-        $settingsArr = [];
 
-        if ($request->about_us) {
-            $settingsArr["about_us"] = $request->about_us;
-        }
-
-        if ($request->commission) {
-            $settingsArr["commission"] = $request->commission;
-        }
-        if ($request->num_bank_alahli) {
-            $settingsArr["num_bank_alahli"] = $request->num_bank_alahli;
-        }
-        if ($request->num_bank_alrakhi) {
-            $settingsArr["num_bank_alrakhi"] = $request->num_bank_alrakhi;
-        }
-
-        Setting::where("id", "1")->update($settingsArr);
+        Setting::where("id", "1")->update($request->all());
 
         return $this->responseJson("1", "تم الامر", new SettingResource($this->settings()));
     }
-
-
-
-
 }

@@ -13,7 +13,7 @@ class CreatePaymentsTable extends Migration {
 			$table->timestamps();
 			$table->integer('restaurant_id')->unsigned();
 			$table->decimal('paid');
-			$table->dateTime('payment_date');
+			$table->date('payment_date');
 			$table->text('notes');
 		});
 	}

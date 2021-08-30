@@ -21,7 +21,7 @@ class Restaurant extends User
     use HasApiTokens;
     protected $table = 'restaurants';
     public $timestamps = true;
-    protected $fillable = array('name', 'email', 'phone', 'state', "password", 'minimum', 'image_restaurant', 'whats_app', 'phone_restaurant', 'delivery_fee', 'district_id');
+    protected $fillable = array('name', 'email', 'phone', 'state', "password", 'minimum',"image", 'image_restaurant', 'whats_app', 'phone_restaurant', 'delivery_fee', 'district_id');
     protected $hidden = ["password","pin_code"];
     public function comments()
     {
@@ -63,9 +63,9 @@ class Restaurant extends User
         return $this->morphMany(Notification::class, 'notifiable');
     }
 
-    public function token()
+    public function tokens()
     {
-        return $this->morphOne(Token::class, 'tokable');
+        return $this->morphMany(Token::class, 'tokable');
     }
 
     public function setPasswordAttribute($value)

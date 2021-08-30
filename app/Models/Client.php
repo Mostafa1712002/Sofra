@@ -40,9 +40,9 @@ class Client  extends User
         return $this->morphMany(Notification::class, 'notifiable');
     }
 
-    public function token()
+    public function tokens()
     {
-        return $this->morphOne(Token::class, 'tokable');
+        return $this->morphMany(Token::class, 'tokable');
     }
 
     public function setPasswordAttribute($value)

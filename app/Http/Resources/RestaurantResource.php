@@ -29,14 +29,13 @@ class RestaurantResource extends JsonResource
             "phone_restaurant" => $this->phone_restaurant,
             "state" => $this->state,
             "minimum" => $this->minimum,
-            // "image_restaurant"=> $this->image_restaurant,
-            // "image"=> $this->image,
+            "image_restaurant"=> $this->image_restaurant,
+            "image"=> $this->image,
             "whats_app" => $this->whats_app,
             "delivery_fee" => $this->delivery_fee,
             "district_id" => $this->district_id,
-            "categories_id" => $this->categories->pluck("id")
-
-
+            "categories_id" => $this->categories->pluck("id"),
+            "comments" => $this->comments
 
         ];
     }

@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\MainController;
+use App\Http\Controllers\Api\General\MainController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -35,12 +34,11 @@ Route::group(["prefix" => 'v1', "namespace" => "Api"], function () {
     Route::post('/contact-us', [MainController::class, "contactUs"]);
     Route::post("/admin-token",[AuthController::class,"loginAdmin"]);
 
-Route::group(["middleware"=> "auth:admin-api"],function(){
-
+Route::group(["middleware"=> "auth:restaurant-api,client-api"],function(){
     Route::get("/get-settings",[MainController::class,"allSettings"]);
-    Route::get("/update-settings",[MainController::class,"updateSettings"]);
-    Route::post("/update-admin",[AuthController::class,"updateAdmin"]);
     Route::post("/update-settings",[MainController::class,"updateSettings"]);
+
 });
+
 
 });

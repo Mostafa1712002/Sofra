@@ -15,7 +15,7 @@ trait helperTrait
     {
         $img = time() . md5(uniqid()) . "." . $imageRequest->guessExtension();
         $imageRequest->move(public_path("$placeMove"), $img);
-        return  $img;
+        return  $placeMove ."/" .  $img;
     }
 
     //  To get Pagination for resource

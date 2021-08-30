@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Restaurant;
 
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
@@ -23,7 +23,7 @@ class ProductController extends BaseController
             "price" => "required|numeric|between:0,9999.99",
             "price_offer" => "required|numeric|between:0,9999.99",
             "price" => "required|numeric|between:0,9999.99",
-            // 'image' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
             "request_time" => "required|date_format:H:i:s",
         ];
 
@@ -32,15 +32,15 @@ class ProductController extends BaseController
         if ($validator->fails()) :
             return $this->responseJson(0, $validator->errors()->first(), $validator->errors());
         endif;
-        // $img = $request->file("image");
-        // $img  = $this->uploadImages($img, "images/restaurant/product");
+        $img = $request->file("image");
+        $img  = $this->uploadImages($img, "images/restaurant/products");
 
         $product = Product::create([
             "name" => $request->name,
             "description" => $request->description,
             "price_offer" => $request->price_offer,
             "price" => $request->price,
-            // "image" =>  "images/restaurant/product" . $img,
+            "image" =>  $img,
             "request_time" => $request->request_time,
             "restaurant_id" => $request->user()->id
         ]);
@@ -48,13 +48,14 @@ class ProductController extends BaseController
         return $this->responseJson(1, "تم إنشاء المنتج بنجاح", new ProductResource($product));
     }
 
+
     // Update Product
     public function updateProduct(Request $request)
     {
         $rules = [
             "product_id" => "required|exists:products,id",
             "name" => "nullable|min:8|max:225",
-            // 'image' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
             "description" => "nullable|min:20",
             "price" => "nullable|numeric|between:0,9999.99",
             "price_offer" => "nullable|numeric|between:0,9999.99",
@@ -65,35 +66,16 @@ class ProductController extends BaseController
             return $this->responseJson(0, $validator->errors()->first(), $validator->errors());
         endif;
 
-        $product = [];
-        if ($request->name) :
-            $product["name"] = $request->name;
-        endif;
 
-        if ($request->description) :
-            $product["description"] = $request->description;
-        endif;
-
-        if ($request->price) :
-            $product["price"] = $request->price;
-        endif;
-
-        if ($request->price_offer) :
-            $product["price_offer"] = $request->price_offer;
-        endif;
-        // if ($request->image) :
-        //     $img = $request->file("image");
-        //     $img  = $this->uploadImages($img, "images/restaurant/product");
-        //     $product["image"] = "images/restaurant/product" . $img;
-        // endif;
-
-        if ($request->request_time) :
-            $product["request_time"] = $request->request_time;
-        endif;
-
-
-        Product::where("id", $request->product_id)->update($product);
         $product = Product::where("id", $request->product_id)->first();
+        $product->update($request->all());
+
+        if ($request->image) :
+            $img = $request->file("image");
+            $img  = $this->uploadImages($img, "images/restaurant/products");
+            $product->update(["image" =>  $img]);
+        endif;
+
 
         return $this->responseJson(1, "تم تعديل المنتج بنجاح", new ProductResource($product));
     }
@@ -108,11 +90,11 @@ class ProductController extends BaseController
         if ($validator->fails()) :
             return $this->responseJson(0, $validator->errors()->first(), $validator->errors());
         endif;
+
         $product = Product::where("id", $request->product_id)->delete();
 
-
         if ($product) {
-            return    $this->responseJson("1", "تم حذف المنتج بنجاح");
+            return  $this->responseJson("1", "تم حذف المنتج بنجاح");
         }
     }
 }

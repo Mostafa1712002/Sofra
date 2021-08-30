@@ -1,50 +1,62 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\OfferController;
-use App\Http\Controllers\Api\ProductController;
-use App\Http\Controllers\Api\RestaurantController;
+use App\Http\Controllers\Api\Auth\RestaurantController;
+use App\Http\Controllers\Api\Restaurant\OfferController;
+use App\Http\Controllers\Api\Restaurant\OrderController;
+use App\Http\Controllers\Api\Restaurant\TokenController;
+use App\Http\Controllers\Api\Restaurant\ProductController;
 
 
 
-
-
-
-Route::group(["prefix" => 'v1', "namespace" => "Api"], function () {
+Route::group(["namespace" => "Api"], function () {
 
     ###########  Restaurant Auth     ################
-    Route::post("/restaurant-register", [AuthController::class, "restaurantRegister"]);
-    Route::post("/restaurant-login", [AuthController::class, "restaurantLogin"]);
-    Route::post("restaurant-reset-password", [AuthController::class, "restaurantResetPassword"]);
-    Route::post("restaurant-new-password", [AuthController::class, "restaurantNewPassword"]);
+
+    Route::post("/register", [RestaurantController::class, "register"]);
+    Route::post("/login", [RestaurantController::class, "login"]);
+    Route::post("/reset-password", [RestaurantController::class, "resetPassword"]);
+    Route::post("/new-password", [RestaurantController::class, "newPassword"]);
+
+
 
     Route::middleware("auth:restaurant-api")->group(function () {
         // update restaurant Profile
-        Route::post("/restaurant-update", [AuthController::class, "restaurantUpdate"]);
+        Route::post("/update", [RestaurantController::class, "restaurantUpdate"]);
+
 
         //  Product Resource
-        Route::post("/create-product", [ProductController::class, "createProduct"]);
-        Route::post("/update-product", [ProductController::class, "updateProduct"]);
-        Route::post("/delete-product", [ProductController::class, "deleteProduct"]);
-        //  Offer Resource
-        Route::post("/create-offer", [OfferController::class, "createOffer"]);
-        Route::post("/update-offer", [OfferController::class, "updateOffer"]);
-        Route::post("/delete-offer", [OfferController::class, "deleteOffer"]);
-        // Add and remove Restaurant token
-        Route::post("/add-restaurant-token", [RestaurantController::class, "addToken"]);
-        Route::post("/remove-restaurant-token", [RestaurantController::class, "removeToken"]);
-        // Get Orders
-        Route::post('/new-pending-orders', [RestaurantController::class, "newPendingOrders"]);
-        Route::post('/current-pending-orders', [RestaurantController::class, "currentPendingOrders"]);
-        Route::post('/restaurant-pervious-orders', [RestaurantController::class, "restaurantPerviousOrders"]);
-        //   Order operations
-        Route::post("/accept-order", [RestaurantController::class, "acceptOrder"]);
-        Route::post("/reject-order", [RestaurantController::class, "rejectOrder"]);
-        Route::post("/delivered-order", [RestaurantController::class, "deliveredOrder"]);
+        Route::prefix("product")->group(function () {
+            Route::post("/create", [ProductController::class, "createProduct"]);
+            Route::post("/update", [ProductController::class, "updateProduct"]);
+            Route::post("/delete", [ProductController::class, "deleteProduct"]);
+        });
 
+        //  Offer Resource
+        Route::prefix("offer")->group(function () {
+            Route::post("/create", [OfferController::class, "createOffer"]);
+            Route::post("/update", [OfferController::class, "updateOffer"]);
+            Route::post("/delete", [OfferController::class, "deleteOffer"]);
+        });
+
+
+        Route::prefix("order")->group(function () {
+            // Orders  Routes
+            Route::get('/new', [OrderController::class, "newOrders"]);
+            Route::get('/current', [OrderController::class, "currentOrders"]);
+            Route::get('/pervious', [OrderController::class, "PerviousOrders"]);
+            Route::post("/accept", [OrderController::class, "acceptOrder"]);
+            Route::post("/reject", [OrderController::class, "rejectOrder"]);
+            Route::post("/delivered-client", [OrderController::class, "deliveredOrderClient"]);
+        });
+
+
+
+        // Add and remove Restaurant token
+        Route::post("/add-token", [TokenController::class, "addToken"]);
+        Route::post("/remove-token", [TokenController::class, "removeToken"]);
         // Payment routes
-        Route::post("/restaurant-paid", [RestaurantController::class, "restaurantPaid"]);
-        Route::post("/restaurant-paid-report", [RestaurantController::class, "restaurantPaidReport"]);
+        Route::post("/paid", [OrderController::class, "restaurantPaid"]);
+        Route::post("/paid-report", [OrderController::class, "restaurantPaidReport"]);
     });
 });

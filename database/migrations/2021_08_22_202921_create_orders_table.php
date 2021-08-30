@@ -14,7 +14,7 @@ class CreateOrdersTable extends Migration
             $table->timestamps();
             $table->string('address', 255);
             $table->enum('payment_method', array('cash', 'online'));
-            $table->enum('state', array('pending', 'accepted', 'rejected', 'delivered', 'declined',"finished"));
+            $table->enum('state', array('pending', 'accepted', 'rejected', 'client_delivered', 'declined',"finished"));
             $table->decimal('price')->nullable();
             $table->integer('client_id')->unsigned();
             $table->integer('restaurant_id')->unsigned();
@@ -23,7 +23,6 @@ class CreateOrdersTable extends Migration
             $table->decimal('total')->nullable();
             $table->decimal('commission')->nullable();
             $table->text("notes");
-            $table->date("insert_time");
             $table->decimal('net')->nullable();
         });
     }

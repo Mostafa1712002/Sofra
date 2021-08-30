@@ -64,11 +64,7 @@ return [
             'provider' => 'restaurants',
             "hash" => false
         ],
-        'admin-api' => [
-            'driver' => 'passport',
-            'provider' => 'users',
-            "hash" => false
-        ],
+
     ],
 
     /*

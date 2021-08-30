@@ -1,48 +1,41 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\ClientController;
-use App\Models\Client;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Auth\ClientController;
+use App\Http\Controllers\Api\Client\MainController;
+use App\Http\Controllers\Api\Client\OrderController;
+use App\Http\Controllers\Api\Client\TokenController;
 
 
-
-
-
-Route::group(["prefix" => 'v1', "namespace" => "Api"], function () {
+Route::group(["namespace" => "Api"], function () {
 
     ###########  Client Auth     ################
-    Route::post("/client-register", [AuthController::class, "clientRegister"]);
-    Route::post("/client-login", [AuthController::class, "clientLogin"]);
-    Route::post("client-reset-password", [AuthController::class, "clientResetPassword"]);
-    Route::post("client-new-password", [AuthController::class, "clientNewPassword"]);
+    Route::post("/register", [ClientController::class, "register"]);
+    Route::post("/login", [ClientController::class, "login"]);
+    Route::post("reset-password", [ClientController::class, "resetPassword"]);
+    Route::post("new-password", [ClientController::class, "newPassword"]);
 
 
-    ########## Auth   ##############
+
+
+    ########## Which is Must Auth    ##############
     Route::middleware(['auth:client-api'])->group(function () {
-        // update Client Profile
-        Route::post("/client-update", [AuthController::class, "clientUpdate"]);
-        //  Create Comments
-        Route::post('/create-comment', [ClientController::class, "createComment"]);
-        // Create new Order
-        Route::post("new-order", [ClientController::class, "newOrder"]);
-        // Add and remove client token
-        Route::post("/add-client-token", [ClientController::class, "addToken"]);
-        Route::post("/remove-client-token", [ClientController::class, "removeToken"]);
+        Route::post("/update", [ClientController::class, "update"]);
 
-        // get current orders
-        Route::post('/client-current-orders',[ClientController::class,"currentOrders"]);
-        // get pervious orders
-        Route::post('/client-pervious-orders',[ClientController::class,"perviousOrders"]);
-
-        //  decline  Orders
-        Route::post('/decline-order', [ClientController::class,"declineOrder"]);
-        // Accept order form client
-        Route::post('/finish-order', [ClientController::class,"finishOrder"]);
+        Route::post('/create-comment', [MainController::class, "createComment"]);
+        Route::post("/add-token", [MainController::class, "addToken"]);
+        Route::post("/remove-token", [MainController::class, "removeToken"]);
 
 
+
+        Route::prefix("order")->group(function () {
+
+            Route::get('/current', [OrderController::class, "currentOrders"]);
+            Route::get('/pervious', [OrderController::class, "perviousOrders"]);
+
+            Route::post("/new", [OrderController::class, "newOrder"]);
+            Route::post('/decline', [OrderController::class, "declineOrder"]);
+            Route::post('/finish', [OrderController::class, "finishOrder"]);
+        });
     });
-
-
-
 });

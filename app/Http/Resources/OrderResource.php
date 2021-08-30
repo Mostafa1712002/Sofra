@@ -28,7 +28,6 @@ class OrderResource extends JsonResource
             "commission"=> $this->commission,
             "net"=> $this->net,
             "notes"=> $this->notes,
-            "insert_time" => $this->insert_time,
             "created_at"=> $this->created_at,
             "updated_at"=> $this->updated_at,
         ];
