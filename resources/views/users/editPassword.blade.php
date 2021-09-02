@@ -79,7 +79,6 @@
 @endsection
 
 @section('js')
-
 <script>
     $(".onefa").click(function(e) {
         e.preventDefault();

@@ -1,11 +1,9 @@
 <?php
 
-use App\Models\User;
-use Illuminate\Routing\RouteGroup;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\HomeController;
-use App\Http\Controllers\Web\UserController;
 
 
 /*
@@ -24,10 +22,25 @@ use App\Http\Controllers\Web\UserController;
 
 Auth::routes();
 
-Route::group(["middleware" => "auth"], function () {
-    Route::get("/",[HomeController::class,"index"]);
+Route::group(["middleware" => "auth", "namespace" => "Web"], function () {
+
+    Route::get("/", [HomeController::class, "index"]);
+    Route::resource('city', CityController::class)->except("edit,create");
+    Route::resource('district', DistrictController::class)->except("edit,create");
+    Route::resource('category', CategoryController::class)->except("edit,create");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     Route::resource('user', UserController::class);
-
-
 });
-

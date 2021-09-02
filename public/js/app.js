@@ -25,21 +25,30 @@ $(function () {
                             },
                             dataType: 'json',
                             success: function (data) {
-                                if (data.status === 1) {
+                                if (data.status == 1) {
 
                                     $("#form" + id).remove();
                                     Swal.fire({
-                                        text: `تم الحذف`,
+                                        text: data.message,
                                         icon: 'success',
                                         confirmButtonText: 'حسنا'
                                     })
-                                } else {
+                                }
+                                if (data.status == 0) {
+                                    let $message = "";
+                                    if (data.message == undefined) {
+                                        $message = "حدث خطأ الرجاء المحاوله مره اخري";
+                                    } else {
+                                        $message = data.message;
+                                    }
+
                                     Swal.fire({
-                                        text: data.message,
+                                        text: $message,
                                         icon: 'error',
                                         confirmButtonText: 'حسنا'
                                     })
                                 }
+
 
                             },
                             error: function () {

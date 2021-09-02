@@ -1,16 +1,7 @@
+@inject('cities', 'App\Models\City')
 @extends('layouts.master')
-
-@push('css')
-    <style>
-        .jconfirm-closeIcon {
-            visibility: hidden;
-        }
-
-    </style>
-@endpush
-
 @section('title')
-    أقسام الفواتير
+    المناطق
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
@@ -18,12 +9,13 @@
         <div class="my-auto">
             <div class="d-flex">
                 <h4 class="content-title mb-0 my-auto">الأعدادت</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ إضافة
-                    اقسام الفواتير</span>
+                    مدينه </span>
             </div>
         </div>
     </div>
     <!-- breadcrumb -->
 @endsection
+
 @section('content')
     <!-- Modal Edit -->
     <div class="modal fade" id="edit" tabindex="-1">
@@ -31,7 +23,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editLabel">
-                        تعديل بياتات القسم
+                        تعديل بياتات المنطقه
                     </h5>
                     <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
@@ -40,14 +32,12 @@
                 <div class="modal-body">
                     {!! Form::open(['id' => 'formModel', 'method' => 'put']) !!}
                     <div class="form-group">
-                        {!! Form::label('name', 'أسم القسم') !!}
-                        {!! Form::text('name', null, ['name' => 'name', 'id' => 'name', 'class' => 'form-control', 'placeholder' => 'تعديل أسم القسم']) !!}
-
+                        {!! Form::label('name', 'أسم المنطقه') !!}
+                        {!! Form::text('name', null, ['name' => 'name', 'id' => 'name', 'class' => 'form-control', 'placeholder' => 'تعديل أسم المنطقه']) !!}
                     </div>
-
                     <div class="form-group">
-                        {!! Form::label('description', ' وصف القسم', ['class' => 'bold']) !!}
-                        {!! Form::textarea('description', null, ['id' => 'description', 'class' => 'form-control', 'placeholder' => 'تعديل وصف القسم']) !!}
+                        {!! Form::label('name', 'أسم المدينه') !!}
+                        {!! Form::select('city_id', $cities::all()->pluck('name', 'id'), null, ['class' => 'form-control', 'id' => 'city_id']) !!}
                     </div>
                     <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
                     {!! Form::close() !!}
@@ -67,27 +57,30 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editLabel">
-                        إضافة بياتات القسم
+                        إضافة بياتات المنطقه
                     </h5>
                     <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    {!! Form::open(['id' => 'formModel', 'route' => 'section.create', 'method' => 'get']) !!}
+                    {!! Form::open(['id' => 'formModel', 'route' => 'district.store', 'method' => 'post']) !!}
                     <div class="form-group">
-                        {!! Form::label('name', 'أسم القسم') !!}
-                        {!! Form::text('name', null, ['name' => 'name', 'id' => 'name', 'class' => 'form-control', 'placeholder' => ' أسم القسم']) !!}
-
+                        {!! Form::label('name', 'أسم المنطقه') !!}
+                        {!! Form::text('name', null, ['name' => 'name', 'id' => 'name', 'class' => 'form-control', 'placeholder' => ' أسم المنطقه']) !!}
+                    </div>
+                    <div class="form-group">
+                        {!! Form::label('city_id', 'أسم المدينه') !!}
+                        <select class="form-control" name="city_id" id="city_id">
+                            <option disabled selected>اختر مدينه</option>
+                            @foreach ($cities::all() as $city)
+                                <option value="{{ $city->id }}"> {{ $city->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <div class="form-group">
-                        {!! Form::label('description', ' وصف القسم', ['class' => 'bold']) !!}
-                        {!! Form::textarea('description', null, ['id' => 'description', 'class' => 'form-control', 'placeholder' => ' وصف القسم']) !!}
-                    </div>
                     <button type="submit" class="btn btn-primary">أضافه</button>
                     {!! Form::close() !!}
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">إغلاق</button>
@@ -95,6 +88,7 @@
             </div>
         </div>
     </div>
+
     <!--  /Modal ِAdd -->
 
     <b class="text-center">
@@ -107,48 +101,36 @@
             <div class=" @if (count($records)) card @endif mg-b-20">
                 <div class="@if (count($records)) card-header @endif pb-0">
                     <div class="d-flex justify-content-center">
-                        <h4 class="card-title mg-b-0">جدول أقسام الفواتير </h4> <i
-                            class="mdi mdi-dots-horizontal text-gray"></i>
+                        <h4 class="card-title mg-b-0">جدول المناطق </h4> <i class="mdi mdi-dots-horizontal text-gray"></i>
                     </div>
                     <div class="d-flex justify-content-center mt-2 mb-2">
-                        <button class=" btn btn-info" data-toggle="modal" data-target="#add">إضافة  جديد</button>
+                        <button class=" btn btn-info" data-toggle="modal" data-target="#add">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            إضافة منطقه جديد</button>
                     </div>
                 </div>
                 @if (count($records))
-                    <div class="card-body">
+                    <div class="card-body table-responsive">
                         <div>
                             <div class="dataTables_wrapper dt-bootstrap4 no-footer">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <table id="example"
                                             class="table key-buttons text-md-nowrap dataTable no-footer dtr-inline"
-                                            role="grid" aria-describedby="example_info" style="width: 1162px;">
+                                            role="grid" aria-describedby="example_info" style="width: 100%;">
                                             <thead>
                                                 <tr role="row">
                                                     <th class="border-bottom-0 sorting_asc" tabindex="0" rowspan="1"
-                                                        colspan="1" style="width: 200px;" aria-sort="ascending">#</th>
+                                                        colspan="1" style="width: 137px;" aria-sort="ascending"
+                                                        aria-label="Name: activate to sort column descending">#</th>
                                                     <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
-                                                        style="width: 200px;">رقم الفاتوره</th>
+                                                        style="width: 500px;">اسم المنطقه </th>
                                                     <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
-                                                        style="width: 200px;">تاريخ الفاتوره</th>
+                                                        style="width: 500px;">اسم المدينه </th>
                                                     <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
-                                                        style="width: 200px;">تاريخ الاستحقاق</th>
+                                                        style="width: 500px;">تاريخ الانشاء</th>
                                                     <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
-                                                        style="width: 200px;">المنتج</th>
-                                                    <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
-                                                        style="width: 200px;">القسم</th>
-                                                    <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
-                                                        style="width: 200px;">الخصم</th>
-                                                    <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
-                                                        style="width: 200px;">قيمة الضريبه</th>
-                                                    <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
-                                                        style="width: 200px;">نسبة الضريبه</th>
-                                                    <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
-                                                        style="width: 200px;">الاجمالي</th>
-                                                    <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
-                                                        style="width: 200px;">الحالة</th>
-                                                    <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
-                                                        style="width: 200px;">الملاحظات</th>
+                                                        style="width: 500px;">تاريخ التعديل</th>
                                                     <th style="width: 500px;"> العمليات</th>
                                                 </tr>
                                             </thead>
@@ -157,30 +139,28 @@
                                                     <tr role="row" class="odd" id="form{{ $record->id }}">
                                                         <td tabindex="0" class="sorting_1">{{ $loop->iteration }}
                                                         </td>
-                                                        <td>{{ $record->invoice_number }}</td>
-                                                        <td>{{ $record->invoice_date }}</td>
-                                                        <td>{{ $record->due_date }}</td>
-                                                        <td>{{ $record->product }}</td>
-                                                        <td>{{ $record->section->name }}</td>
-                                                        <td>{{ $record->amount_commission }}</td>
-                                                        <td>{{ $record->value_vat }} </td>
-                                                        <td>{{ $record->rate_vat }}</td>
-                                                        <td>{{ $record->totle }}</td>
-                                                        <td>{{ $record->state_value }} </td>
-                                                        <td>{{ $record->note }}</td>
+                                                        <td data-route="{{ route('district.update', $record->id) }}">
+                                                            {{ $record->name }}</td>
+                                                        <td>
+                                                            {{ $record->city->name }}</td>
+                                                        <td>{{ $record->created_at }}
+                                                        </td>
+                                                        <td>{{ $record->updated_at }}
+                                                        </td>
                                                         <td>
                                                             <div class="row">
                                                                 <div class="col-6">
                                                                     <div class=" btn btn-success btn-sm edit"
                                                                         data-toggle="modal" data-target="#edit"
-                                                                        data-id="{{ $record->id }}">
+                                                                        data-id="{{ $record->id }}"
+                                                                        data-city="{{ $record->city->id }}">
                                                                         <i class="fas fa-edit"></i>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-6">
                                                                     <div data-token="{{ csrf_token() }}"
                                                                         data-id="{{ $record->id }}"
-                                                                        data-route="{{ route('section.destroy', $record->id) }}"
+                                                                        data-route="{{ route('district.destroy', $record->id) }}"
                                                                         class="btn btn-danger btn-sm" id="destroy">
                                                                         <i class="fas fa-trash "></i>
                                                                     </div>
@@ -216,35 +196,15 @@
             $(".edit").each(function() {
                 $(this).click(function() {
                     var $id = $(this).data("id");
+                    var $cityId = $(this).data("city");
                     var $name = $(`#form${$id} td:nth-child(2)`).text();
-                    var $description = $(`#form${$id} td:nth-child(3) div `).data("desc");
                     var $route = $(`#form${$id} td:nth-child(2)`).data("route");
                     $("#name").val(`${$name}`);
-                    $("#description").val(`${$description}`)
                     $("#formModel").attr("action", `${$route}`)
+                    $("#city_id").val($cityId)
                 });
             });
 
-            // Show Descripation
-
-            $(".showDesc").each(function() {
-                $(this).click(function() {
-                    var $desc = $(this).data("desc");
-                    $.dialog({
-                        title: 'الوصف',
-                        content: $desc,
-                        type: 'blue',
-                        backgroundDismiss: function() {
-                            return true;
-                        },
-                        closeAnimation: "scale",
-                        columnClass: 'col-6 ',
-                        draggable: true,
-                    });
-
-
-                })
-            });
         })
     </script>
 @endpush

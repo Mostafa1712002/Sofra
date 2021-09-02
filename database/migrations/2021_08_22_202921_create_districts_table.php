@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateDistrictsTable extends Migration {
 
@@ -12,6 +13,7 @@ class CreateDistrictsTable extends Migration {
 			$table->timestamps();
 			$table->string('name', 255);
 			$table->integer('city_id')->unsigned();
+            $table->foreign("city_id")->references("id")->on("cities")->restrictOnDelete()->cascadeOnUpdate();
 		});
 	}
 
