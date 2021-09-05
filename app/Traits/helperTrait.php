@@ -4,7 +4,7 @@ namespace App\Traits;
 
 use App\Models\Setting;
 
-trait helperTrait
+trait HelperTrait
 {
 
     /**
@@ -15,7 +15,7 @@ trait helperTrait
     {
         $img = time() . md5(uniqid()) . "." . $imageRequest->guessExtension();
         $imageRequest->move(public_path("$placeMove"), $img);
-        return  $placeMove ."/" .  $img;
+        return  $placeMove . "/" .  $img;
     }
 
     //  To get Pagination for resource
@@ -40,4 +40,7 @@ trait helperTrait
     {
         return Setting::find(1);
     }
+
+
+
 }

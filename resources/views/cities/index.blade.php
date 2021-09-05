@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    المدن
+المدن - سفره
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
@@ -161,7 +161,7 @@
             </div>
         @else
             <div class="alert alert-danger text-center " role="alert">
-                <strong>لا توجد فواتير بعد </strong>
+                <strong>لا توجد مدن  </strong>
             </div>
             @endif
             <div style="height: 500px;">

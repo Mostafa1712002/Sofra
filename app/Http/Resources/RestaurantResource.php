@@ -34,6 +34,7 @@ class RestaurantResource extends JsonResource
             "whats_app" => $this->whats_app,
             "delivery_fee" => $this->delivery_fee,
             "district_id" => $this->district_id,
+            "active" => $this->active,
             "categories_id" => $this->categories->pluck("id"),
             "comments" => $this->comments
 

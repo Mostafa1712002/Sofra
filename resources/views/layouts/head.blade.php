@@ -24,5 +24,8 @@
 <link href="{{ URL::asset('assets/css-rtl/skin-modes.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 @stack('css')
-<link rel="stylesheet" href="{{ URL::asset("css/app.css") }}"></link>
+<link rel="stylesheet" href="{{ URL::asset('css/app.css') }}"></link>
+{{-- Select Two --}}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />

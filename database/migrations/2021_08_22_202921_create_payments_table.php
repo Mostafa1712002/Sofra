@@ -14,6 +14,7 @@ class CreatePaymentsTable extends Migration {
 			$table->integer('restaurant_id')->unsigned();
 			$table->decimal('paid');
 			$table->date('payment_date');
+            $table->foreign("restaurant_id")->references("restaurant")->on("id")->cascadeOnDelete()->cascadeOnUpdate();
 			$table->text('notes');
 		});
 	}

@@ -161,7 +161,7 @@
             </div>
         @else
             <div class="alert alert-danger text-center " role="alert">
-                <strong>لا توجد فواتير بعد </strong>
+                <strong>لا توجد اقسام  </strong>
             </div>
             @endif
             <div style="height: 500px;">

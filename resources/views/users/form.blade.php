@@ -48,13 +48,13 @@
 
 </div>
 
-{{-- <div class="form-groups overflow-hidden">
+<div class="form-groups overflow-hidden">
     {!! Form::label("أختر رتب المستخدم") !!}
         {!! Form::select('listRoles[]',
         $listRoles,null,
         [ "multiple" ,"class"=> "listRoles form-control"]); !!}
 
-</div> --}}
+</div>
 
 <div class="form-group">
     <button class="btn btn-info mt-3 mr-2 btn-md "> {{ $word }}</button>

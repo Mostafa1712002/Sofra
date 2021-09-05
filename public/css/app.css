@@ -2,3 +2,12 @@
     visibility: hidden;
 }
 
+.side-menu__icon {
+    width: 17px !important;
+    height: 32px !important;
+    line-height: 38px !important;
+    font-size: 20px !important;
+}
+.no-after:after{
+    content: none !important;
+}

@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateSettingsTable extends Migration {
 
@@ -12,8 +13,8 @@ class CreateSettingsTable extends Migration {
 			$table->timestamps();
 			$table->text('about_us');
 			$table->decimal('commission');
-			$table->integer('num_bank_alahli');
-			$table->integer('num_bank_alrakhi');
+			$table->string('num_bank_alahli',100);
+			$table->string('num_bank_alrakhi',100);
 		});
 	}
 
