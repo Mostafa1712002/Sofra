@@ -21,7 +21,7 @@ use App\Http\Controllers\Web\HomeController;
 
 Auth::routes();
 
-Route::group(["middleware" => "auth:auto", "namespace" => "Web"], function () {
+Route::group(["middleware" => ["auth","auto-check-permission"], "namespace" => "Web"], function () {
 
     Route::get("/", [HomeController::class, "index"]);
 
