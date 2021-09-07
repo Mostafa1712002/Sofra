@@ -35,7 +35,7 @@ class OrderController extends Controller
                     $q->where("name", "LIKE", "%" . $request->restaurant . "%");
                 });
             endif;
-        })->get();
+        })->paginate(20);
         return view("orders.index", compact("records"));
     }
 

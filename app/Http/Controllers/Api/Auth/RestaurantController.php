@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Mail\ClientMail;
 use App\Traits\ApiTraits;
 use App\Models\Restaurant;
-use App\Traits\helperTrait;
+use App\Traits\HelperTrait;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +17,8 @@ use App\Http\Resources\RestaurantResource;
 class RestaurantController extends Controller
 {
 
-    use ApiTraits, helperTrait;
+
+    use ApiTraits, HelperTrait;
 
 
     ###################  Restaurant Auth      ###############################
@@ -181,6 +182,7 @@ class RestaurantController extends Controller
             "pin_code" => $pin_code,
         ]);
     }
+
 
     public function newPassword(Request $request)
     {

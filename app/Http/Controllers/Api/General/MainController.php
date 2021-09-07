@@ -12,7 +12,7 @@ use App\Models\Category;
 use App\Models\District;
 use App\Traits\ApiTraits;
 use App\Models\Restaurant;
-use App\Traits\helperTrait;
+use App\Traits\HelperTrait;
 use Illuminate\Http\Request;
 use App\Http\Resources\CityResource;
 use App\Http\Resources\OfferResource;
@@ -22,7 +22,6 @@ use App\Http\Resources\ProductResource;
 use App\Http\Resources\SettingResource;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\DistrictResource;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\RestaurantResource;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -31,7 +30,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class MainController extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, ApiTraits, helperTrait;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, ApiTraits, HelperTrait;
 
     ######################## General Api#######################################
 
@@ -39,11 +38,6 @@ class MainController extends BaseController
 
     public function restaurants(Request $request)
     {
-
-        $paginate = 10;
-        if ($request->paginate) :
-            $paginate = $request->paginate;
-        endif;
 
         $records = Restaurant::with("comments")->where(function ($q) use ($request) {
             // Search By city_id and name of restaurant
@@ -55,7 +49,7 @@ class MainController extends BaseController
             if ($request->has("name")) :
                 $q->where("name", $request->name);
             endif;
-        })->paginate($paginate);
+        })->paginate($request->paginate);
         //  IF No Data
         if ($records->total() == 0) {
             return $this->responseJsonFalse();
@@ -73,11 +67,7 @@ class MainController extends BaseController
     public function products(Request $request)
     {
 
-        $paginate = 10;
-        if ($request->paginate) :
-            $paginate = $request->paginate;
-        endif;
-        $records = Product::where("restaurant_id", $request->restaurant_id)->paginate($paginate);
+        $records = Product::where("restaurant_id", $request->restaurant_id)->paginate($request->paginate);
         if ($records->total() == 0) {
             return $this->responseJsonFalse();
         }
@@ -140,24 +130,14 @@ class MainController extends BaseController
 
 
 
-
-
-
-
     //  get Comment by the restaurant id
 
     public function comments(Request $request)
     {
-
-        $paginate = 10;
-        if ($request->paginate) :
-            $paginate = $request->paginate;
-        endif;
-
-        $validator = Validator::make($request->all(), ["restaurant_id" => "required:exists:restaurants,id"]);
+        $validator = validator()->make($request->all(), ["restaurant_id" => "required:exists:restaurants,id"]);
         if ($validator->fails()) : return $this->responseJson(0, $validator->errors()->first(), $validator->errors());
         endif;
-        $records = Comment::where("restaurant_id", $request->restaurant_id)->paginate($paginate);
+        $records = Comment::where("restaurant_id", $request->restaurant_id)->paginate($request->paginate);
         if ($records->total() == 0) {
             return $this->responseJsonFalse();
         }
@@ -220,12 +200,8 @@ class MainController extends BaseController
             return $this->responseJson("0", $validator->errors()->first(), $validator->errors());
         endif;
 
-        $paginate = 10;
-        if ($request->paginate) :
-            $paginate = $request->paginate;
-        endif;
 
-        $records = Offer::where("restaurant_id", $request->restaurant_id)->orderBy("created_at")->paginate($paginate);
+        $records = Offer::where("restaurant_id", $request->restaurant_id)->orderBy("created_at")->paginate($request->paginate);
         return $this->responseJson("1", "تم الامر ", [
             "offers" => OfferResource::collection($records),
             "pagination" => $this->getPaginates($records)
@@ -271,7 +247,7 @@ class MainController extends BaseController
             "num_bank_alrakhi" => "integer|nullable",
         ];
 
-        $validator = Validator::make($request->all(), $rules);
+        $validator = validator()->make($request->all(), $rules);
 
         if ($validator->fails()) :
             return $this->responseJson("0",  $validator->errors()->first(), $validator->errors());

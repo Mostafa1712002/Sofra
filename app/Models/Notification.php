@@ -12,6 +12,7 @@ class Notification extends Model
     public $timestamps = true;
     protected $fillable = array('title', 'content', 'order_id', 'notifiable_id', 'notifiable_type');
 
+
     public function notifiable()
     {
         return $this->morphTo();

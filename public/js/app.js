@@ -75,14 +75,27 @@ $(function () {
     $(".buttons-collection span").text("ظهور الأعمدة")
     $(".dataTables_filter label input ").attr("placeholder", "بحث ....");
 
-    //  Select
-    $('#formSelect').select2();
 
+    $('#example').dataTable({
+        "bProcessing": true,
+        "sAutoWidth": false,
+        "bDestroy": true,
+        "sPaginationType": "bootstrap", // full_numbers
+        "iDisplayStart ": 10,
+        "iDisplayLength": 10,
+        "bPaginate": false, //hide pagination
+        "bFilter": true, //hide Search bar
+        "bInfo": false, // hide showing entries
+    })
+
+    //  Select
+
+    $('#formSelect').select2();
 
 
     //  Active and DaActive
     // toggle  icons
-    function shap($id) {
+    function shape($id) {
         var $div = $(`#active-div${$id}`);
         var $select = $div.children().children();
         var $p = $div.children();
@@ -125,7 +138,7 @@ $(function () {
                     _token: $token
                 },
                 success: function (data) {
-                    shap($id);
+                    shape($id);
                     Swal.fire({
                         position: 'top-start',
                         icon: 'success',
@@ -166,6 +179,13 @@ $(function () {
     $("#printButton").click(function (e) {
         window.print();
     });
+
+
+
+
+
+
+
 
 })
 

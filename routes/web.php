@@ -21,10 +21,9 @@ use App\Http\Controllers\Web\HomeController;
 
 Auth::routes();
 
-Route::group(["middleware" => ["auth","auto-check-permission"], "namespace" => "Web"], function () {
+Route::group(["middleware" => ["auth", "auto-check-permission"], "namespace" => "Web"], function () {
 
-    Route::get("/", [HomeController::class, "index"]);
-
+    Route::get("/", [HomeController::class, "index"])->name("home");
     // Ingredients of app Routes
     Route::resource('order', orderController::class)->except("index,show");
     Route::resource('city', CityController::class)->except("edit,create");
@@ -44,13 +43,9 @@ Route::group(["middleware" => ["auth","auto-check-permission"], "namespace" => "
     // Setting of App Routes
     Route::resource("/setting", SettingController::class)->only(["store", "index"]);
 
-
-
-
-
-
-
-
-
+    // Roles and users
     Route::resource('user', UserController::class);
+    Route::get("/password/edit", [App\Http\Controllers\Web\UserController::class, "editPassword"])->name("user.password-edit");
+    Route::put("/password/update", [App\Http\Controllers\Web\UserController::class, "updatePassword"])->name("user.password-update");
+    Route::resource('role', RoleController::class);
 });

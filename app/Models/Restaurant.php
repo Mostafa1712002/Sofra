@@ -63,6 +63,7 @@ class Restaurant extends User
         return $this->morphMany(Notification::class, 'notifiable');
     }
 
+
     public function tokens()
     {
         return $this->morphMany(Token::class, 'tokable');

@@ -21,11 +21,10 @@ Route::group(["namespace" => "Api"], function () {
     ########## Which is Must Auth    ##############
     Route::middleware(['auth:client-api'])->group(function () {
         Route::post("/update", [ClientController::class, "update"]);
-
         Route::post('/create-comment', [MainController::class, "createComment"]);
         Route::post("/add-token", [MainController::class, "addToken"]);
         Route::post("/remove-token", [MainController::class, "removeToken"]);
-
+        Route::get("/notifications", [MainController::class, "notifications"]);
 
 
         Route::prefix("order")->group(function () {

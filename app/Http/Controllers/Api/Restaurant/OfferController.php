@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Restaurant;
 use App\Http\Resources\OfferResource;
 use App\Models\Offer;
 use App\Traits\ApiTraits;
-use App\Traits\helperTrait;
+use App\Traits\HelperTrait;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 
@@ -13,7 +13,7 @@ class OfferController extends BaseController
 {
 
 
-    use ApiTraits, helperTrait;
+    use ApiTraits, HelperTrait;
     //  Create new Offer
     public function createOffer(Request $request)
     {

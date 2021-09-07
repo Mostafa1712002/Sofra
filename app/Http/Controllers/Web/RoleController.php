@@ -13,88 +13,78 @@ class RoleController extends Controller
     public function index()
     {
         $records = Role::paginate(20);
-        return view("role.index", compact("records"));
+        return view("roles.index", compact("records"));
     }
 
     public function create()
     {
-
         $permissions = Permission::orderBy("group")->get();
-        return view("role.create", compact("permissions"));
+        return view("roles.create", compact("permissions"));
     }
+
 
     public function store(Request $request)
     {
-
-        // Make Validation on the data coming from the request
-        $rules = ["name" => "required|unique:roles,name", "display_name" => "required|unique:roles,display_name"];
-        $message = [
-            "name.required" => "اسم رتبه مطلوب",
-            "name.unique" => " رتبه موجوده من قبل",
-            "display_name.unique" => " الاسم المعروض موجود من قبل",
-            "display_name.required" => "الاسم المعروض مطلوب",
+        $rules = [
+            "name" => "required|unique:roles,name",
+            "permissions" => "required",
+            "display_name" => "required|unique:roles,display_name",
+            "description" => "nullable|min:20"
         ];
-        $validator = validator()->make($request->all(), $rules, $message);
-        if ($validator->fails()) :
-            Flash($validator->errors()->first())->error();
-            return redirect()->back();
-        endif;
-
-        // Create New Roles and connect it with the permission
+        $request->validate($rules, $this->getMessage());
         $role = Role::create($request->all());
         $role->permissions()->attach($request->permissions);
-
-        Flash("تم إنشاء رتبه بنجاح")->success();
+        flash("تم إنشاء الرتبه بنجاح")->success();
         return redirect()->to(route("role.index"));
     }
 
     public function edit($id)
     {
-        //  Return the record of data with permission relation
         $record = Role::with(["permissions" => function ($q) {
             $q->select("id");
-        }])->find($id);
+        }])->findOrFail($id);
         $permissions = Permission::orderBy("group")->get();
+        return view("roles.edit", compact("record", "permissions"));
 
-        if (!$record) {
-            return abort("404");
-        }
-
-        return view("role.edit", compact("record", "permissions"));
     }
 
     public function update(Request $request, $id)
     {
-        //  Validation to sure it valid id and then validation of the rules
-        $role = Role::find($id);
-        if (!$role) : return abort("404");
-        endif;
-        $rules = ["name" => "nullable|unique:roles,name," . $role->id, "display_name" => "nullable"];
-        $message = ["name.unique" => " رتبه موجوده من قبل"];
-        $validator = validator()->make($request->all(), $rules, $message);
-        if ($validator->fails()) :
-            Flash($validator->errors()->first())->error();
-            return redirect()->back();
-        endif;
+        $role = Role::findOrFail($id);
+        $rules = [
+            "name" => "required|unique:roles,name,$id",
+            "permissions" => "required",
+            "display_name" => "required|unique:roles,display_name,$id",
+            "description" => "nullable|min:20"
+        ];
+        $request->validate($rules, $this->getMessage());
 
-        // if the query pass from the validation it will be update and sync the permission for rules
         $role->update($request->all());
         $role->permissions()->sync($request->permissions);
         flash("تم تعديل الرتبه بنجاح")->success();
         return redirect()->to(route("role.index"));
     }
-    // Delete Role by ajax
+
     public function destroy($id)
     {
-        $record = Role::find($id);
-        if (!$record) {
-            return abort("404");
-        }
-        if ($record) {
-            $record->delete();
-            return response()->json([
-                "status" => 1,
-            ]);
-        }
+        $record = Role::findOrFail($id);
+        $record->delete();
+        return response()->json([
+            "status" => 1,
+            "message" =>  "تم حذف الرتبه بنجاح"
+        ]);
+    }
+
+
+    public function getMessage()
+    {
+        return [
+            "permissions.required" => " أختيار الصلاحيات مطلوب",
+            "name.required" => "اسم رتبه مطلوب",
+            "name.unique" => " رتبه موجوده من قبل",
+            "display_name.unique" => " الاسم المعروض موجود من قبل",
+            "display_name.required" => "الاسم المعروض مطلوب",
+            "description.min" => "الوصف يجب ان يكون أكثر من 20 حرف"
+        ];
     }
 }

@@ -18,7 +18,7 @@
 @endsection
 @section('content')
 
-    <!-- Modal -->
+    <!--  Filter Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -49,7 +49,7 @@
 
                     <div class="form-group">
                         {!! Form::label('date_to', 'فتلرة (إلي تاريخ العرض)') !!}
-                        {!! Form::date('date_to',null, ['id' => 'date_to', 'class' => 'form-control']) !!}
+                        {!! Form::date('date_to', null, ['id' => 'date_to', 'class' => 'form-control']) !!}
                     </div>
 
                     <button class="btn btn-success"> فلتره</button>
@@ -64,6 +64,7 @@
             </div>
         </div>
     </div>
+    <!-- / Filter Modal -->
 
 
 
@@ -112,10 +113,12 @@
                                                     <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
                                                         <th class="border-bottom-0 sorting" tabindex="0" rowspan="1"
                                                         colspan="1" style="width: 500px;">من تاريخ</th>
-                                                    <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
+                                                    <th class="border-bottom-0 text-center sorting" tabindex="0" rowspan="1" colspan="1"
                                                         style="width: 500px;">إلي تاريخ</th>
-                                                    <th class=" no-after border-bottom-0 sorting" tabindex="0" rowspan="1"
-                                                        colspan="1" style="width: 500px;"> حذف</th>
+                                                    @if (auth()->user()->can('offer-destroy'))
+                                                        <th class=" no-after border-bottom-0 sorting" tabindex="0"
+                                                            rowspan="1" colspan="1" style="width: 500px;"> حذف</th>
+                                                    @endif
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -137,18 +140,22 @@
                                                         <td>{{ $record->restaurant->name }}</td>
                                                         <td>{{ $record->date_from }}</td>
                                                         <td>{{ $record->date_to }}</td>
-                                                        <td>
-                                                            <div data-token="{{ csrf_token() }}"
-                                                                data-id="{{ $record->id }}"
-                                                                data-route="{{ route('offer.destroy', $record->id) }}"
-                                                                class="btn btn-danger btn-sm" id="destroy">
-                                                                <i class="fas fa-trash "></i>
-                                                            </div>
-                                                        </td>
+                                                        @if (auth()->user()->can('offer-destroy'))
+                                                            <td class="text-center">
+                                                                <div data-token="{{ csrf_token() }}"
+                                                                    data-id="{{ $record->id }}"
+                                                                    data-route="{{ route('offer.destroy', $record->id) }}"
+                                                                    class="btn btn-danger btn-sm" id="destroy">
+                                                                    <i class="fas fa-trash "></i>
+                                                                </div>
+                                                            </td>
+                                                        @endif
                                                     </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                        {{ $records->links('pagination::bootstrap-4') }}
+
                                     </div>
                                 </div>
                             </div>

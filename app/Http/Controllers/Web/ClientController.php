@@ -45,7 +45,7 @@ class ClientController extends Controller
                     });
                 });
             endif;
-        })->orderBy("created_at")->get();
+        })->orderBy("created_at")->paginate(20);
         return view("clients.index", compact("records"));
     }
 

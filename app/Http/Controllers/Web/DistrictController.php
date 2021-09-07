@@ -15,7 +15,7 @@ class DistrictController extends Controller
 
     public function index()
     {
-        $records = District::all();
+        $records = District::paginate(20);
         return view("districts.index", compact("records"));
     }
 

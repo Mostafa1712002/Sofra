@@ -42,7 +42,7 @@ class RestaurantController extends Controller
                     });
                 });
             endif;
-        })->get();
+        })->paginate(20);
         return view("restaurants.index", compact("records"));
     }
 

@@ -1,25 +1,29 @@
 <div class="form-group">
-    {!! Form::label("اسم رتبة ") !!}
-    {!! Form::text('name',null,[
-    "class" => "form-control",
-    "placeholder" => "أدخل اسم رتبة"
-    ]) !!}
+    {!! Form::label('اسم رتبة ') !!}
+    {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'أدخل اسم رتبة']) !!}
+    @error('name')
+        <small class="text-danger ">
+            {{ $message }}
+        </small>
+    @enderror
 </div>
 <div class="form-group">
-    {!! Form::label("الاسم المعروض") !!}
-    {!! Form::text('display_name',null,[
-    "class" => "form-control",
-    "placeholder" => "أدخل الاسم المعروض لرتبة"
-    ]) !!}
+    {!! Form::label('الاسم المعروض') !!}
+    {!! Form::text('display_name', null, ['class' => 'form-control', 'placeholder' => 'أدخل الاسم المعروض لرتبة']) !!}
+    @error('display_name')
+        <small class="text-danger ">
+            {{ $message }}
+        </small>
+    @enderror
 </div>
 <div class="form-group">
-    {!! Form::label("وصف رتبة") !!}
-    {!! Form::textarea('description',null,[
-    "class" => "form-control",
-    "rows" => 5,
-    "cols" => 15,
-    "placeholder" => "أدخل وصف رتبة"
-    ]) !!}
+    {!! Form::label('وصف رتبة') !!}
+    {!! Form::textarea('description', null, ['class' => 'form-control', 'rows' => 5, 'cols' => 15, 'placeholder' => 'أدخل وصف رتبة']) !!}
+    @error('description')
+        <small class="text-danger ">
+            {{ $message }}
+        </small>
+    @enderror
 </div>
 
 <div class="row">
@@ -31,11 +35,17 @@
         <label for="checkAll">تحديد الجميع</label>
     </div>
     @foreach ($permissions as $permission)
-    <div class="col-3">
-        {!! Form::checkbox('permissions[]', $permission->id , ); !!}
-        {!! Form::label($permission->display_name) !!}
+        <div class="col-3">
+            {!! Form::checkbox('permissions[]', $permission->id) !!}
+            {!! Form::label($permission->display_name) !!}
 
-    </div>
+        </div>
     @endforeach
+
+    @error('permissions')
+        <small class="text-danger">
+            {{ $message }}
+        </small>
+    @enderror
 
 </div>

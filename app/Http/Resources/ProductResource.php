@@ -22,9 +22,10 @@ class ProductResource extends JsonResource
             "price_offer"=> $this->price_offer,
             "image" => $this->image,
             "request_time"=> $this->request_time,
+            "restaurant"=> $this->restaurant->name,
+            "active" => $this->active,
             "created_at"=> $this->created_at,
             "updated_at"=> $this->updated_at,
-            "restaurant"=> $this->restaurant->name,
 
         ];
     }

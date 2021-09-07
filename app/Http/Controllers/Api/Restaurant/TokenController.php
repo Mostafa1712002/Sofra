@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Restaurant;
 
 use App\Models\Token;
 use App\Traits\ApiTraits;
-use App\Traits\helperTrait;
+use App\Traits\HelperTrait;
 use Illuminate\Http\Request;
 use App\Http\Resources\TokenResource;
 use Illuminate\Routing\Controller as BaseController;
@@ -12,7 +12,7 @@ use Illuminate\Routing\Controller as BaseController;
 class TokenController extends BaseController
 {
 
-    use ApiTraits, helperTrait;
+    use ApiTraits, HelperTrait;
 
     // Add Token
     public function addToken(Request $request)
@@ -37,7 +37,7 @@ class TokenController extends BaseController
             ]);
         }
 
-        $tokens = Token::where("tokable_id", $request->user()->id)->where("tokable_type", "App\Models\Restaurant")->get();
+        $tokens = $request->user()->tokens;
 
         return $this->responseJson("1", "  تم الامر", $tokens);
     }

@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="Description" content="برنامج لشركات تحصيل الديون">
-    <meta name="Author" content="Spruko Technologies Private Limited">
-    <meta name="Keywords" content="Invoices, فواتير , تحصيل الديون" />
+    <meta name="Description" content="The dashboard and control panel , app to treat with api ">
+    <meta name="Author" content="Eng/Mostafa Ebrahim">
+    <meta name="Keywords" content="Sofra , سفره , food" />
     @include('layouts.head')
 </head>
 
 <body class="main-body app sidebar-mini">
     <!-- Loader -->
     <div id="global-loader">
-        <img src="{{URL::asset('assets/img/loader.svg')}}" class="loader-img" alt="Loader">
+        <img src="{{ URL::asset('assets/img/loader.svg') }}" class="loader-img" alt="Loader">
     </div>
     <!-- /Loader -->
     @include('layouts.main-sidebar')
@@ -23,12 +23,11 @@
         @include('layouts.main-header')
         <!-- container -->
         <div class="container-fluid">
-            @yield('page-header')
+            @yield("page-header")
             @yield('content')
-            @include('layouts.sidebar')
-            @include('layouts.models')
             @include('layouts.footer')
             @include('layouts.footer-scripts')
+        </div>
 </body>
 
 </html>

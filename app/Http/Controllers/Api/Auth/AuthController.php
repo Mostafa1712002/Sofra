@@ -2,15 +2,8 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Http\Controllers\Controller;
 
+use Illuminate\Routing\Controller;
 
 class AuthController extends Controller
-{
-
-
-
-
-
-
-}
+{}

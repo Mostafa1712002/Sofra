@@ -5,15 +5,14 @@ namespace App\Http\Controllers\Api\Restaurant;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Traits\ApiTraits;
-use App\Traits\helperTrait;
+use App\Traits\HelperTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controller as BaseController;
 
 class ProductController extends BaseController
 {
 
-    use ApiTraits, helperTrait;
+    use ApiTraits, HelperTrait;
     //  Create new Product
     public function createProduct(Request $request)
     {
@@ -80,6 +79,7 @@ class ProductController extends BaseController
         return $this->responseJson(1, "تم تعديل المنتج بنجاح", new ProductResource($product));
     }
 
+    ##############First Case For Products showing  #############
     // Method to Delete Product
     public function deleteProduct(Request $request)
     {
@@ -91,10 +91,37 @@ class ProductController extends BaseController
             return $this->responseJson(0, $validator->errors()->first(), $validator->errors());
         endif;
 
-        $product = Product::where("id", $request->product_id)->delete();
-
+        $product = Product::find($request->product_id);
+        if ($product->restaurant) :
+            return  $this->responseJson("0", "لا يمكنك حذف هذا المنتج لانه ينتمي إلي مطعم معين");
+        endif;
+        $product = $product->delete();
         if ($product) {
             return  $this->responseJson("1", "تم حذف المنتج بنجاح");
         }
+    }
+
+    #################Second Case For Products showing  #######################
+
+    public function toggleActive(Request $request)
+    {
+        $rules = [
+            "product_id" => "required|exists:products,id",
+        ];
+        $validator = validator()->make($request->all(), $rules);
+        if ($validator->fails()) :
+            return $this->responseJson(0, $validator->errors()->first(), $validator->errors());
+        endif;
+
+        $product = Product::find($request->product_id);
+        $active = $product->active;
+        if ($active == 0) :
+
+            $product->update(["active" => 1]);
+        else :
+
+            $product->update(["active" => 0]);
+        endif;
+        return  $this->responseJson("1", "تم التبديل", new ProductResource($product));
     }
 }

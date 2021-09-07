@@ -3,33 +3,24 @@
 namespace App\Http\Controllers\Api\Client;
 
 use App\Models\Order;
-use App\Models\Token;
-use App\Models\Client;
-use App\Models\Comment;
 use App\Models\Product;
 use App\Traits\ApiTraits;
 use App\Models\Restaurant;
-use App\Traits\helperTrait;
+use App\Traits\HelperTrait;
 use Illuminate\Http\Request;
 use App\Http\Resources\OrderResource;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controller as BaseController;
 
 class OrderController extends BaseController
 {
 
-    use ApiTraits, helperTrait;
+    use ApiTraits, HelperTrait;
 
     // get Current orders
     public function currentOrders(Request $request)
     {
 
-        $paginate = 10;
-        if ($request->paginate) :
-            $paginate = $request->paginate;
-        endif;
-        $orders = Order::where("state", "client_delivered")->where("client_id", $request->user()->id)->paginate($paginate);
+        $orders = $request->user()->orders()->where("state", "client_delivered")->paginate($request->paginate);
         return  $this->responseJson(1, "تم الأمر", [
             "orders" => OrderResource::collection($orders),
             "pagination" => $this->getPaginates($orders)
@@ -41,11 +32,7 @@ class OrderController extends BaseController
     public function perviousOrders(Request $request)
     {
 
-        $paginate = 10;
-        if ($request->paginate) :
-            $paginate = $request->paginate;
-        endif;
-        $orders = Order::whereIn("state", ["finished", "declined"])->where("client_id", $request->user()->id)->paginate($paginate);
+        $orders = $request->user()->orders()->whereIn("state", ["finished", "declined"])->paginate($request->paginate);
         return  $this->responseJson(1, "تم الأمر", [
             "orders" => OrderResource::collection($orders),
             "pagination" => $this->getPaginates($orders)
@@ -68,7 +55,7 @@ class OrderController extends BaseController
 
         ];
 
-        $validator = Validator::make($request->all(), $rules);
+        $validator = validator()->make($request->all(), $rules);
 
 
         if ($validator->fails()) :

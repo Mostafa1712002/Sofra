@@ -23,15 +23,15 @@ class PaymentController extends Controller
                 $q->where("notes", "LIKE", "%" . $request->notes . "%");
             endif;
 
-            if ($request->paid) :
-                $q->where("paid", "LIKE", "%" . $request->paid . "%");
+            if ($request->paid_from && $request->paid_to) :
+                $q->whereBetween("paid", ["$request->paid_from", "$request->paid_to"]);
             endif;
 
-
-            if ($request->payment_date) :
-                $q->whereDate("payment_date", $request->payment_date);
+            if ($request->payment_date_to && $request->payment_date_from) :
+                $q->whereBetween("payment_date", ["$request->date_from", "$request->payment_date_to"]);
             endif;
-        })->orderBy("created_at")->get();
+
+        })->orderBy("created_at")->paginate(20);
         return view("payments.index", compact("records"));
     }
 
@@ -54,7 +54,7 @@ class PaymentController extends Controller
     public function edit($id)
     {
         $record = Payment::find($id);
-        return view("payments.edit",compact("record"));
+        return view("payments.edit", compact("record"));
     }
 
     public function update(Request $request, $id)

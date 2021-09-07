@@ -18,6 +18,8 @@
 
 @section('content')
     <!-- Modal Edit -->
+    @if (auth()->user()->can("district-edit"))
+
     <div class="modal fade" id="edit" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -49,9 +51,11 @@
             </div>
         </div>
     </div>
+    @endif
     <!-- / Modal Edit -->
 
     <!-- Modal ِAdd -->
+    @if (auth()->user()->can("district-add"))
     <div class="modal fade" id="add" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -88,8 +92,9 @@
             </div>
         </div>
     </div>
-
+    @endif
     <!--  /Modal ِAdd -->
+
 
     <b class="text-center">
         @include('flash::message')
@@ -103,11 +108,13 @@
                     <div class="d-flex justify-content-center">
                         <h4 class="card-title mg-b-0">جدول المناطق </h4> <i class="mdi mdi-dots-horizontal text-gray"></i>
                     </div>
+                    @if (auth()->user()->can("district-create"))
                     <div class="d-flex justify-content-center mt-2 mb-2">
                         <button class=" btn btn-info" data-toggle="modal" data-target="#add">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             إضافة منطقه جديد</button>
                     </div>
+                    @endif
                 </div>
                 @if (count($records))
                     <div class="card-body table-responsive">
@@ -131,7 +138,10 @@
                                                         style="width: 500px;">تاريخ الانشاء</th>
                                                     <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
                                                         style="width: 500px;">تاريخ التعديل</th>
-                                                    <th style="width: 500px;"> العمليات</th>
+                                                        @if (auth()->user()->can("district-edit") || auth()->user()->can("district-destroy"))
+                                                        <th style="width: 500px;"> العمليات</th>
+                                                        @endif
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -147,8 +157,11 @@
                                                         </td>
                                                         <td>{{ $record->updated_at }}
                                                         </td>
+                                                        @if (auth()->user()->can("district-edit")|| auth()->user()->can("district-destroy"))
                                                         <td>
                                                             <div class="row">
+                                                                @if (auth()->user()->can("district-edit"))
+
                                                                 <div class="col-6">
                                                                     <div class=" btn btn-success btn-sm edit"
                                                                         data-toggle="modal" data-target="#edit"
@@ -157,6 +170,8 @@
                                                                         <i class="fas fa-edit"></i>
                                                                     </div>
                                                                 </div>
+                                                                @endif
+                                                                @if (auth()->user()->can("district-destroy"))
                                                                 <div class="col-6">
                                                                     <div data-token="{{ csrf_token() }}"
                                                                         data-id="{{ $record->id }}"
@@ -165,12 +180,15 @@
                                                                         <i class="fas fa-trash "></i>
                                                                     </div>
                                                                 </div>
+                                                                @endif
                                                             </div>
                                                         </td>
+                                                        @endif
                                                     </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                        {{ $records->links("pagination::bootstrap-4") }}
                                     </div>
                                 </div>
                             </div>

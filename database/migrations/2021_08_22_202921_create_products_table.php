@@ -12,12 +12,14 @@ class CreateProductsTable extends Migration {
 			$table->increments('id');
 			$table->timestamps();
 			$table->string('name', 255);
+            $table->tinyInteger("active");
 			$table->text('description');
             $table->string("image");
 			$table->decimal('price');
 			$table->decimal('price_offer');
 			$table->time('request_time');
 			$table->integer('restaurant_id')->unsigned();
+            $table->foreign("restaurant_id")->references("restaurants")->on("id")->cascadeOnDelete()->cascadeOnUpdate();
 		});
 	}
 

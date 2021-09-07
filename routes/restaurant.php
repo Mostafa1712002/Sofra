@@ -23,13 +23,15 @@ Route::group(["namespace" => "Api"], function () {
     Route::middleware("auth:restaurant-api")->group(function () {
         // update restaurant Profile
         Route::post("/update", [RestaurantController::class, "restaurantUpdate"]);
-
+        // get Notification
+        Route::get("/notifications", [OrderController::class, "notifications"]);
 
         //  Product Resource
         Route::prefix("product")->group(function () {
             Route::post("/create", [ProductController::class, "createProduct"]);
             Route::post("/update", [ProductController::class, "updateProduct"]);
             Route::post("/delete", [ProductController::class, "deleteProduct"]);
+            Route::post("/toggle-active", [ProductController::class, "toggleActive"]);
         });
 
         //  Offer Resource

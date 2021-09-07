@@ -5,17 +5,17 @@ namespace App\Http\Controllers\Api\Client;
 use App\Models\Token;
 use App\Models\Comment;
 use App\Traits\ApiTraits;
-use App\Traits\helperTrait;
+use App\Traits\HelperTrait;
 use Illuminate\Http\Request;
 use App\Http\Resources\CommentResource;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\notificationResource;
 use Illuminate\Routing\Controller as BaseController;
 
 class MainController extends BaseController
 {
 
 
-    use ApiTraits, helperTrait;
+    use ApiTraits, HelperTrait;
 
     //  Create new Comment
     public function createComment(Request $request)
@@ -25,7 +25,7 @@ class MainController extends BaseController
             "rating" => "required|in:star1,star2,star3,star4,star5",
             "restaurant_id" => "required|exists:restaurants,id",
         ];
-        $validator = Validator::make($request->all(), $rules);
+        $validator = validator()->make($request->all(), $rules);
         if ($validator->fails()) {
 
             return $this->responseJson("0", $validator->errors()->first(), $validator->errors());
@@ -66,7 +66,8 @@ class MainController extends BaseController
                 "token" => $t
             ]);
         }
-        $tokens = Token::where("tokable_id", $request->user()->id)->where("tokable_type", "App\Models\Client")->get();
+
+        $tokens = $request->user()->tokens;
         return $this->responseJson("1", "  تم الامر", $tokens);
     }
 
@@ -85,5 +86,10 @@ class MainController extends BaseController
             Token::where("token", $t)->delete();
         }
         return $this->responseJson("0", " تم الحذف");
+    }
+    // Get Notifications
+    public function notifications(Request $request)
+    {
+        return $this->responseJson(1, "success", notificationResource::collection($request->user()->notifications));
     }
 }

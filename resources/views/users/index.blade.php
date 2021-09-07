@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    قائمة المستخدمين
+    قائمة المستخدمين - سفره
 @endsection
 
 @section('page-header')
@@ -17,7 +17,6 @@
     <!-- breadcrumb -->
 @endsection
 @section('content')
-
     <b class="text-center">
         @include('flash::message')
     </b>
@@ -31,12 +30,16 @@
                         <h4 class="card-title mg-b-0">جدول المستخدمين </h4> <i
                             class="mdi mdi-dots-horizontal text-gray"></i>
                     </div>
-                    <div class="d-flex justify-content-center mt-2 mb-2">
-                        <a  href="{{ route("user.create") }}"  class=" btn btn-info"  >
+
+                    @if (auth()->user()->can("user-create"))
+                    <div class="d-flex  justify-content-center mt-2 mb-2">
+                        <a href="{{ route('user.create') }}" class=" btn-sm btn-primary">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             إضافة مستخدم جديد
                         </a>
                     </div>
+                    @endif
+
                 </div>
                 @if (count($records))
                     <div class="card-body table-responsive">
@@ -56,12 +59,13 @@
                                                         style="width: 500px;">اسم المستخدم </th>
                                                     <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
                                                         style="width: 500px;"> البريد الالكتروني </th>
+
                                                     <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
-                                                        <th class="border-bottom-0 sorting" tabindex="0" rowspan="1"
-                                                        colspan="1" style="width: 500px;">تاريخ الانشاء</th>
-                                                    <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
-                                                        style="width: 500px;">تاريخ التعديل</th>
-                                                    <th style="width: 500px;"> العمليات</th>
+                                                        style="width: 500px;">الرتبه</th>
+                                                        @if (auth()->user()->can("user-edit")|| auth()->user()->can("user-destroy"))
+
+                                                        <th class="text-center no-after" style=" width: 500px;"> العمليات</th>
+                                                        @endif
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -75,15 +79,25 @@
                                                         <td>
                                                             {{ $record->email }}
                                                         </td>
-                                                        <td>{{ $record->created_at }}</td>
-                                                        <td>{{ $record->updated_at }}</td>
                                                         <td>
+                                                            @foreach ($record->roles->pluck('display_name') as $name)
+                                                                <span class="bg-warning-gradient rounded-20">
+                                                                    {{ $name }}</span>
+                                                            @endforeach
+                                                        </td>
+                                                        @if (auth()->user()->can("user-destroy")|| auth()->user()->can("user-edit"))
+                                                        <td class="text-center">
                                                             <div class="row">
+                                                                @if (auth()->user()->can("user-edit"))
+
                                                                 <div class="col-6">
-                                                                    <a  href="{{ route("user.edit" ,$record->id) }}" class=" btn btn-success btn-sm edit" >
-                                                                            <i class=" fas fa-edit"></i>
+                                                                    <a href="{{ route('user.edit', $record->id) }}"
+                                                                        class=" btn btn-success btn-sm edit">
+                                                                        <i class=" fas fa-edit"></i>
                                                                     </a>
                                                                 </div>
+                                                                @endif
+                                                                @if (auth()->user()->can("user-destroy"))
                                                                 <div class="col-6">
                                                                     <div data-token="{{ csrf_token() }}"
                                                                         data-id="{{ $record->id }}"
@@ -92,25 +106,28 @@
                                                                         <i class="fas fa-trash "></i>
                                                                     </div>
                                                                 </div>
+                                                                @endif
                                                             </div>
                                                         </td>
+                                                        @endif
                                                     </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                        {{ $records->links('pagination::bootstrap-4') }}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
             </div>
-        @else
-            <div class="alert alert-danger text-center " role="alert">
-                <strong>لا توجد فواتير بعد </strong>
-            </div>
-            @endif
-            <div style="height: 500px;">
-            </div>
+        </div>
+    @else
+        <div class="alert alert-danger text-center " role="alert">
+            <strong>لا يوجد مستخدمين</strong>
+        </div>
+        @endif
+        <div style="height: 700px;">
         </div>
     </div>
     <!-- /row -->

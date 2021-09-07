@@ -23,8 +23,9 @@
                     {!! Form::open([ "method" => "post" , "route" => "user.store"]) !!}
                     @php
                         $word = ' إضافه';
+                        $id  = null ;
                     @endphp
-                    @include("user.form")
+                    @include("users.form")
                     {!! Form::close() !!}
                 </div>
 

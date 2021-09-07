@@ -18,7 +18,7 @@
 @endsection
 @section('content')
 
-    <!-- Modal -->
+    <!-- Filter  Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -34,11 +34,7 @@
                         {!! Form::text('client', null, ['class' => 'form-control', 'placeholder' => 'فلترة باسم العميل']) !!}
                     </div>
                     <div class="form-group">
-                        {!! Form::text('restaurant', null, [
-    'class' => 'form-control',
-    'placeholder' => 'فلترة باسم
-                                                                                                    المطعم',
-]) !!}
+                        {!! Form::text('restaurant', null, ['class' => 'form-control', 'placeholder' => 'فلترة باسم المطعم']) !!}
                     </div>
 
                     <div class="form-group">
@@ -66,9 +62,6 @@
 
                         </select>
                     </div>
-
-
-
                     <button class="btn btn-success"> فلتره</button>
                     {!! Form::close() !!}
 
@@ -81,6 +74,7 @@
             </div>
         </div>
     </div>
+    <!-- / Filter  Modal -->
     <!-- row opened -->
     <div class="row ">
         <!--div-->
@@ -128,12 +122,14 @@
                                                         style="width: 500px;">العنوان</th>
                                                     <th class=" no-after border-bottom-0 sorting" tabindex="0" rowspan="1"
                                                         colspan="1" style="width: 500px;">معلومات أكثر </th>
-
-                                                    <th class="border-bottom-0 text-center no-after sorting" tabindex="0"
-                                                        rowspan="1" colspan="1" style="width: 800px;">
-                                                        <b>حذف</b>
-                                                    </th>
+                                                    @if (auth()->user()->can('order-destroy'))
+                                                        <th class="border-bottom-0 text-center no-after sorting"
+                                                            tabindex="0" rowspan="1" colspan="1" style="width: 800px;">
+                                                            <b>حذف</b>
+                                                        </th>
+                                                    @endif
                                                 </tr>
+
                                             </thead>
                                             <tbody>
                                                 @foreach ($records as $record)
@@ -149,27 +145,28 @@
 
                                                         <td class="text-center tx-12" style="color: white">
                                                             @switch($record->state)
-                                                            @case('pending')
-                                                                <span class="bg-dark p-1 rounded ">معلقه</span>
-                                                            @break
-                                                            @case('accepted')
-                                                                <span class="bg-secondary p-1 rounded">قبلها المطعم</span>
-                                                            @break
-                                                            @case('rejected')
-                                                                <span class="bg-warning p-1 rounded">رفضها المطعم</span>
-                                                            @break
-                                                            @case('client_delivered')
-                                                                <span class="bg-info p-1 rounded"> تم إرساله للعميل</span>
-                                                            @break
-                                                            @case('declined')
-                                                                <span class="bg-danger p-1 rounded">رفضها العميل</span>
-                                                            @break
-                                                            @case('finished')
-                                                                <span class="bg-success p-1 rounded">قبلها العميل</span>
-                                                            @break
-                                                        @endswitch
+                                                                @case('pending')
+                                                                    <span class="bg-dark p-1 rounded ">معلقه</span>
+                                                                @break
+                                                                @case('accepted')
+                                                                    <span class="bg-secondary p-1 rounded">قبلها المطعم</span>
+                                                                @break
+                                                                @case('rejected')
+                                                                    <span class="bg-warning p-1 rounded">رفضها المطعم</span>
+                                                                @break
+                                                                @case('client_delivered')
+                                                                    <span class="bg-info p-1 rounded"> تم إرساله للعميل</span>
+                                                                @break
+                                                                @case('declined')
+                                                                    <span class="bg-danger p-1 rounded">رفضها العميل</span>
+                                                                @break
+                                                                @case('finished')
+                                                                    <span class="bg-success p-1 rounded">قبلها العميل</span>
+                                                                @break
+                                                            @endswitch
 
                                                         </td>
+
                                                         <td class="text-center">
                                                             @if ($record->payment_method == 'cash')
                                                                 <span class="bg-success-gradient p-1 rounded-20">نقداً
@@ -186,36 +183,42 @@
                                                                 href="{{ route('order.show', $record->id) }}">
                                                                 المزيد....</a>
                                                         </td>
-                                                        <td class="text-center">
-                                                            <div class="row">
-                                                                <div class="col-12 text-center  ">
-                                                                    <div data-token="{{ csrf_token() }}"
-                                                                        data-id="{{ $record->id }}"
-                                                                        data-route="{{ route('order.destroy', $record->id) }}"
-                                                                        class="btn btn-danger btn-sm" id="destroy">
-                                                                        <i class="fas fa-trash "></i>
+                                                        @if (auth()->user()->can("order-destroy"))
+                                                            <td class="text-center">
+                                                                <div class="row">
+                                                                    <div class="col-12 text-center  ">
+                                                                        <div data-token="{{ csrf_token() }}"
+                                                                            data-id="{{ $record->id }}"
+                                                                            data-route="{{ route('order.destroy', $record->id) }}"
+                                                                            class="btn btn-danger btn-sm" id="destroy">
+                                                                            <i class="fas fa-trash "></i>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
+                                                            </td>
+                                                        @endif
 
-                                                            </div>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        {{ $records->links('pagination::bootstrap-4') }}
                                     </div>
-                                    </td>
-                                    </tr>
-                @endforeach
-                </tbody>
-                </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
             </div>
         </div>
-    </div>
-    </div>
-    </div>
-    </div>
-@else
-    <div class="alert alert-danger text-center " role="alert">
-        <strong>لا توجد طلبات </strong>
-    </div>
-    @endif
-    <div style="height: 500px;">
-    </div>
-    <!-- /row -->
-@endsection
+
+    @else
+        <div class="alert alert-danger text-center " role="alert">
+            <strong>لا توجد طلبات </strong>
+        </div>
+        @endif
+        <div style="height: 500px;">
+        </div>
+        <!-- /row -->
+    @endsection

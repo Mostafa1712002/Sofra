@@ -1,8 +1,7 @@
 @extends('layouts.master')
 
-@section('main-word')
-توزيعات المستخدمين
-
+@section('title')
+تعديل رتبة المستخدم - سفره
 @endsection
 @section("page-header")
 {{-- Page headerr  --}}
@@ -26,7 +25,7 @@
                 "route"=> ["role.update", $record->id],
                 "method" => "PUT"
                 ]) !!}
-                @include('role.form')
+                @include('roles.form')
             </div>
             <div class="form-group">
                 <button class="btn btn-info mt-3 mr-2 btn-md "> تعديل</button>
@@ -37,15 +36,8 @@
     </div>
 </div>
 <!-- row close -->
-{{-- Row for fix smooth --}}
-<div class="row row-sm fix-smooth">
-</div>
-
-</div>
-</div>
-<!-- Container closed -->
 @endsection
-@section('js')
+@push('js')
 <script>
     $("#select-all").click(function() {
         $("input[type=checkbox]").prop("checked", $(this).prop("checked"));
@@ -58,4 +50,4 @@
     });
 
 </script>
-@endsection
+@endpush

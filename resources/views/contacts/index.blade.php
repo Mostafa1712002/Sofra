@@ -18,7 +18,7 @@
 @endsection
 @section('content')
 
-    <!-- Modal -->
+    <!-- Fillter Model -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -40,8 +40,6 @@
                     <div class="form-group">
                         {!! Form::text('phone', null, ['class' => 'form-control', 'placeholder' => 'فلترة بمحتوي  برقم الجول']) !!}
                     </div>
-
-
                     <div class="form-group">
                         {!! Form::label('date', 'فتلرة التاريخ') !!}
                         {!! Form::date('date', null, ['id' => 'date_from', 'class' => 'form-control']) !!}
@@ -67,6 +65,7 @@
         </div>
     </div>
 
+    <!--/ Fillter Modal -->
 
 
     <div class="row ">
@@ -111,14 +110,15 @@
                                                         rowspan="1" colspan="1" style="width: 500px;"> الرساله </th>
                                                     <th class=" border-bottom-0 text-center sorting" tabindex="0"
                                                         rowspan="1" colspan="1" style="width: 500px;"> رقم الجوال </th>
-                                                    <th class="border-bottom-0  no-after text-center sorting" tabindex="0"
+                                                    <th class="border-bottom-0  text-center sorting" tabindex="0"
                                                         rowspan="1" colspan="1" style="width: 500px;"> نوع الرساله </th>
-                                                    <th class="border-bottom-0 text-center sorting" tabindex="0" rowspan="1"
-                                                        colspan="1" <th class="border-bottom-0 text-center sorting"
-                                                        tabindex="0" rowspan="1" colspan="1" style="width: 500px;"> التاريخ
-                                                    </th>
+                                                    <th class="border-bottom-0   text-center sorting" tabindex="0"
+                                                        rowspan="1" colspan="1" style="width: 500px;">  التاريخ </th>
+
+                                                    @if (auth()->user()->can("contact-destroy"))
                                                     <th class=" no-after border-bottom-0 text-center sorting" tabindex="0"
                                                         rowspan="1" colspan="1" style="width: 500px;"> حذف</th>
+                                                    @endif
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -149,18 +149,23 @@
                                                         </td>
                                                         <td class="text-center">
                                                             {{ $record->created_at->format('Y-m-d') }}</td>
-                                                        <td class="text-center">
-                                                            <div data-token="{{ csrf_token() }}"
-                                                                data-id="{{ $record->id }}"
-                                                                data-route="{{ route('contact.destroy', $record->id) }}"
-                                                                class="btn btn-danger btn-sm" id="destroy">
-                                                                <i class="fas fa-trash "></i>
-                                                            </div>
-                                                        </td>
+                                                            @if (auth()->user()->can("contact-destroy"))
+
+                                                            <td class="text-center">
+                                                                <div data-token="{{ csrf_token() }}"
+                                                                    data-id="{{ $record->id }}"
+                                                                    data-route="{{ route('contact.destroy', $record->id) }}"
+                                                                    class="btn btn-danger btn-sm" id="destroy">
+                                                                    <i class="fas fa-trash "></i>
+                                                                </div>
+                                                            </td>
+                                                            @endif
                                                     </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                        {{ $records->links('pagination::bootstrap-4') }}
+
                                     </div>
                                 </div>
                             </div>
@@ -169,7 +174,7 @@
             </div>
         @else
             <div class="alert alert-danger text-center " role="alert">
-                <strong>لا توجد رسائل مستلمه  </strong>
+                <strong>لا توجد رسائل مستلمه </strong>
             </div>
             @endif
             <div style="height: 500px;">

@@ -12,7 +12,6 @@
 <!-- Rating js-->
 <script src="{{ URL::asset('assets/plugins/rating/jquery.rating-stars.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/rating/jquery.barrating.js') }}"></script>
-
 <!--Internal  Perfect-scrollbar js -->
 <script src="{{ URL::asset('assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/perfect-scrollbar/p-scroll.js') }}"></script>

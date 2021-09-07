@@ -36,7 +36,7 @@ class ContactController extends Controller
             if ($request->date) {
                 $q->whereDate('created_at', "=", $request->date);
             }
-        })->get();
+        })->paginate(20);
         return view("contacts.index", compact("records"));
     }
 

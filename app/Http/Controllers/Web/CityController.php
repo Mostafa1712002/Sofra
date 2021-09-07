@@ -13,7 +13,7 @@ class CityController extends Controller
 
     public function index()
     {
-        $records = City::all();
+        $records = City::paginate(20);
         return view("cities.index", compact("records"));
     }
 

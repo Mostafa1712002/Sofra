@@ -16,66 +16,69 @@
 @endsection
 @section('content')
     <!-- Modal Edit -->
-    <div class="modal fade" id="edit" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editLabel">
-                        تعديل بياتات القسم
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {!! Form::open(['id' => 'formModel', 'method' => 'put']) !!}
-                    <div class="form-group">
-                        {!! Form::label('name', 'أسم القسم') !!}
-                        {!! Form::text('name', null, ['name' => 'name', 'id' => 'name', 'class' => 'form-control', 'placeholder' => 'تعديل أسم القسم']) !!}
+    @if (auth()->user()->can('category-edit'))
+        <div class="modal fade" id="edit" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editLabel">
+                            تعديل بياتات القسم
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {!! Form::open(['id' => 'formModel', 'method' => 'put']) !!}
+                        <div class="form-group">
+                            {!! Form::label('name', 'أسم القسم') !!}
+                            {!! Form::text('name', null, ['name' => 'name', 'id' => 'name', 'class' => 'form-control', 'placeholder' => 'تعديل أسم القسم']) !!}
+
+                        </div>
+                        <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+                        {!! Form::close() !!}
 
                     </div>
-                    <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
-                    {!! Form::close() !!}
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">إغلاق</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">إغلاق</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
     <!-- / Modal Edit -->
 
     <!-- Modal ِAdd -->
-    <div class="modal fade" id="add" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editLabel">
-                        إضافة بياتات القسم
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {!! Form::open(['id' => 'formModel', 'route' => 'category.store', 'method' => 'post']) !!}
-                    <div class="form-group">
-                        {!! Form::label('name', 'أسم القسم') !!}
-                        {!! Form::text('name', null, ['name' => 'name', 'id' => 'name', 'class' => 'form-control', 'placeholder' => ' أسم القسم']) !!}
+    @if (auth()->user()->can('category-create'))
+        <div class="modal fade" id="add" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editLabel">
+                            إضافة بياتات القسم
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {!! Form::open(['id' => 'formModel', 'route' => 'category.store', 'method' => 'post']) !!}
+                        <div class="form-group">
+                            {!! Form::label('name', 'أسم القسم') !!}
+                            {!! Form::text('name', null, ['name' => 'name', 'id' => 'name', 'class' => 'form-control', 'placeholder' => ' أسم القسم']) !!}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">أضافه</button>
+                        {!! Form::close() !!}
 
                     </div>
-
-                    <button type="submit" class="btn btn-primary">أضافه</button>
-                    {!! Form::close() !!}
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">إغلاق</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">إغلاق</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
     <!--  /Modal ِAdd -->
 
     <b class="text-center">
@@ -90,11 +93,13 @@
                     <div class="d-flex justify-content-center">
                         <h4 class="card-title mg-b-0">جدول الأقسام </h4> <i class="mdi mdi-dots-horizontal text-gray"></i>
                     </div>
-                    <div class="d-flex justify-content-center mt-2 mb-2">
-                        <button class=" btn btn-info" data-toggle="modal" data-target="#add">
-                            <i class="fa fa-plus" aria-hidden="true"></i>
-                            إضافة قسم جديد</button>
-                    </div>
+                    @if (auth()->user()->can('category-create'))
+                        <div class="d-flex justify-content-center mt-2 mb-2">
+                            <button class=" btn btn-info" data-toggle="modal" data-target="#add">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                إضافة قسم جديد</button>
+                        </div>
+                    @endif
                 </div>
                 @if (count($records))
                     <div class="card-body table-responsive">
@@ -114,9 +119,11 @@
                                                         style="width: 500px;">اسم القسم </th>
                                                     <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
                                                         style="width: 500px;">تاريخ الانشاء</th>
-                                                    <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
+                                                    <th class=" border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
                                                         style="width: 500px;">تاريخ التعديل</th>
-                                                    <th style="width: 500px;"> العمليات</th>
+                                                        @if (auth()->user()->can("category-destroy")|| auth()->user()->can("category-edit"))
+                                                        <th class="no-after text-center" style="width: 500px;"> العمليات</th>
+                                                        @endif
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -130,8 +137,11 @@
 
                                                         <td>{{ $record->created_at }}</td>
                                                         <td>{{ $record->updated_at }}</td>
+                                                        @if (auth()->user()->can("category-destroy")||auth()->user()->can("category-edit") )
                                                         <td>
-                                                            <div class="row">
+                                                            <div class="row text-center">
+                                                                @if (auth()->user()->can("category-edit") )
+
                                                                 <div class="col-6">
                                                                     <div class=" btn btn-success btn-sm edit"
                                                                         data-toggle="modal" data-target="#edit"
@@ -139,6 +149,9 @@
                                                                         <i class="fas fa-edit"></i>
                                                                     </div>
                                                                 </div>
+                                                                @endif
+
+                                                                @if (auth()->user()->can("category-destroy"))
                                                                 <div class="col-6">
                                                                     <div data-token="{{ csrf_token() }}"
                                                                         data-id="{{ $record->id }}"
@@ -147,12 +160,16 @@
                                                                         <i class="fas fa-trash "></i>
                                                                     </div>
                                                                 </div>
+                                                                @endif
+
                                                             </div>
                                                         </td>
+                                                        @endif
                                                     </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                        {{ $records->links('pagination::bootstrap-4') }}
                                     </div>
                                 </div>
                             </div>
@@ -161,7 +178,7 @@
             </div>
         @else
             <div class="alert alert-danger text-center " role="alert">
-                <strong>لا توجد اقسام  </strong>
+                <strong>لا توجد اقسام </strong>
             </div>
             @endif
             <div style="height: 500px;">

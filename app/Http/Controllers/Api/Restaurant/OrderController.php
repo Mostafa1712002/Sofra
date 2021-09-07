@@ -3,31 +3,27 @@
 namespace App\Http\Controllers\Api\Restaurant;
 
 
-use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Traits\ApiTraits;
+use App\Traits\HelperTrait;
 use Illuminate\Http\Request;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\PaymentResource;
-use App\Traits\ApiTraits;
-use App\Traits\helperTrait;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\notificationResource;
 use Illuminate\Routing\Controller as BaseController;
 
 class OrderController extends BaseController
 {
 
-    use ApiTraits, helperTrait;
+    use ApiTraits, HelperTrait;
 
     //  new Orders
     public function newOrders(Request $request)
     {
-        $paginate = 10;
-        if (isset($request->paginate)) {
-            $paginate = $request->paginate;
-        }
 
-        $orders = Order::where("state", "pending")->paginate($paginate);
+        $orders = Order::where("state", "pending")->paginate($request->paginate);
         return  $this->responseJson(1, "تم الأمر", [
             "orders" => OrderResource::collection($orders),
             "pagination" => $this->getPaginates($orders)
@@ -38,13 +34,7 @@ class OrderController extends BaseController
     //  Current Orders
     public function currentOrders(Request $request)
     {
-
-        $paginate = 10;
-        if (isset($request->paginate)) {
-            $paginate = $request->paginate;
-        }
-
-        $orders = Order::where("state", "accepted")->paginate($paginate);
+        $orders = Order::where("state", "accepted")->paginate($request->paginate);
         return  $this->responseJson(1, "تم الأمر", [
             "orders" => OrderResource::collection($orders),
             "pagination" => $this->getPaginates($orders)
@@ -57,11 +47,8 @@ class OrderController extends BaseController
     public function PerviousOrders(Request $request)
     {
 
-        $paginate = 10;
-        if (isset($request->paginate)) {
-            $paginate = $request->paginate;
-        }
-        $orders = Order::whereIn("state", ["declined", "finished"])->paginate($paginate);
+
+        $orders = Order::whereIn("state", ["declined", "finished"])->paginate($request->paginate);
         return  $this->responseJson(1, "تم الأمر", [
             "orders" => OrderResource::collection($orders),
             "pagination" => $this->getPaginates($orders)
@@ -222,13 +209,13 @@ class OrderController extends BaseController
         $payment =  Payment::create([
             "paid" => $request->paid,
             "restaurant_id" => $request->user()->id,
-            "payment_date" => $request->payment_date ,
+            "payment_date" => $request->payment_date,
             "notes" => (isset($request->notes)) ? $request->notes : "",
         ]);
         return $this->responseJson("1", "تم الامر", new PaymentResource($payment));
     }
 
-
+    //  paid Report
 
     public function restaurantPaidReport()
     {
@@ -236,16 +223,16 @@ class OrderController extends BaseController
         $restaurant = auth("restaurant-api")->user();
         if ($restaurant) {
             $id = $restaurant->id;
-            $order=Order::where("restaurant_id", $id);
+            $order = Order::where("restaurant_id", $id);
             $payment = Payment::where("restaurant_id", $id)->sum("paid");
             $orderPaid = $order->sum("cost");
             $commission = $order->sum("commission");
 
 
             return $this->responseJson("1", "تم الامر", [
-                "restaurant_sales" => (integer) $orderPaid,
-                "app_commissions" =>(integer) $commission,
-                "what_is_paid" => (integer) $payment,
+                "restaurant_sales" => (int) $orderPaid,
+                "app_commissions" => (int) $commission,
+                "what_is_paid" => (int) $payment,
                 "what_is_rest" => $orderPaid - $payment,
             ]);
         } else {
@@ -254,4 +241,10 @@ class OrderController extends BaseController
         }
     }
 
+
+    // Get Notifications
+    public function notifications(Request $request)
+    {
+        return $this->responseJson(1, "success", notificationResource::collection($request->user()->notifications));
+    }
 }

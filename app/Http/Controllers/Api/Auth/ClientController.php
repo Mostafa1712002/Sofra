@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Models\Client;
 use App\Mail\ClientMail;
 use App\Traits\ApiTraits;
-use App\Traits\helperTrait;
+use App\Traits\HelperTrait;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +15,7 @@ use App\Http\Resources\ClientResource;
 class ClientController extends Controller
 {
 
-    use ApiTraits, helperTrait;
+    use ApiTraits, HelperTrait;
 
 
 

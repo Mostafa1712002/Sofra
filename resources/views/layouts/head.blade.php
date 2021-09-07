@@ -1,7 +1,7 @@
 <!-- Title -->
 <title> @yield('title') </title>
 <!-- Favicon -->
-<link rel="icon" href="{{ URL::asset('images/app/icon.png') }}" type="image/x-icon" />
+<link rel="icon" href="{{ URL::asset('images/app/icon.jpg') }}" type="image/x-icon" />
 <!-- Icons css -->
 <link href="{{ URL::asset('assets/css/icons.css') }}" rel="stylesheet">
 <!--  Custom Scroll bar-->
@@ -9,6 +9,7 @@
 <!--  Sidebar css -->
 <link href="{{ URL::asset('assets/plugins/sidebar/sidebar.css') }}" rel="stylesheet">
 <!-- Sidemenu css -->
+
 <link rel="stylesheet" href="{{ URL::asset('assets/css-rtl/sidemenu.css') }}">
 <link href="{{ URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
 <link href="{{ URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css') }}" rel="stylesheet">

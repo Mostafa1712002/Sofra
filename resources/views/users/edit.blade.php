@@ -21,13 +21,15 @@
                     {!! Form::model($record, ['route' => ['user.update', $record->id], 'method' => 'put']) !!}
                     @php
                         $word = 'تعديل';
+                        $id = $record->roles->pluck("id");
                     @endphp
-                    @include('user.form')
+                    
+                    @include('users.form')
                     {!! Form::close() !!}
                 </div>
             </div>
         </div>
-    </div>
+    </div>  
     <!-- row close -->
     {{-- Row for fix smooth --}}
     <div style="height: 200px">

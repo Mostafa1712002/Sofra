@@ -1,4 +1,7 @@
 @extends('layouts.master2')
+@section('title')
+    الصفحه غير موجوده - سفره
+@endsection
 @section('css')
 <!--- Internal Fontawesome css-->
 <link href="{{URL::asset('assets/plugins/fontawesome-free/css/all.min.css')}}" rel="stylesheet">

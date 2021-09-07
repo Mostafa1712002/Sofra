@@ -12,7 +12,7 @@ class Product extends Model
 
     protected $table = 'products';
     public $timestamps = true;
-    protected $fillable = array('name', 'description', 'price', "image",'price_offer', 'request_time', 'restaurant_id');
+    protected $fillable = array('name', "active",'description', 'price', "image",'price_offer', 'request_time', 'restaurant_id');
 
     public function restaurant()
     {

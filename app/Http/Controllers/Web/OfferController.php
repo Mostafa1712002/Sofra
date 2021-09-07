@@ -35,13 +35,16 @@ class OfferController extends Controller
                 $q->whereDate("date_from","=", $request->date_from) ;
             }
 
+
+
+
             if ($request->has("restaurant")) {
                 $q->wherehas("restaurant",function($q) use ($request){
                     $q->where("name", "LIKE", "%" . $request->restaurant . "%");
                 });
             }
 
-        })->get();
+        })->paginate(20);
         return view("offers.index", compact("records"));
     }
 
