@@ -3,11 +3,12 @@
     <div class="container-fluid">
         <div class="main-header-left ">
             <div class="responsive-logo">
-                <a href="{{ url('/' . ($page = 'index')) }}"><img src="{{ URL::asset("images/app/logo.png") }}"
+                <a href="{{ url('/' . ($page = 'index')) }}"><img src="{{ URL::asset('images/app/logo.png') }}"
                         class="logo-1" alt="logo"></a>
                 <a href="{{ url('/' . ($page = 'index')) }}"><img
-                        src="{{ URL::asset('assets/img/brand/logo-white.png') }}" class="dark-logo-1" alt="logo"></a>
-                <a href="{{ url('/' . ($page = 'index')) }}"><img src="{{ URL::asset("images/app/logo.png") }}"
+                        src="{{ URL::asset('assets/img/brand/logo-white.png') }}" class="dark-logo-1"
+                        alt="logo"></a>
+                <a href="{{ url('/' . ($page = 'index')) }}"><img src="{{ URL::asset('images/app/logo.png') }}"
                         class="logo-2" alt="logo"></a>
                 <a href="{{ url('/' . ($page = 'index')) }}"><img src="{{ URL::asset('images/app/logo.png') }}"
                         class="dark-logo-2" alt="logo"></a>
@@ -30,8 +31,9 @@
                             </path>
                         </svg></a>
                 </div>
-            <div class="dropdown main-profile-menu nav nav-item nav-link">
-                    <a class="profile-user d-flex" href=""><img alt="" src="{{ URL::asset('images/app/me.jpg') }}"></a>
+                <div class="dropdown main-profile-menu nav nav-item nav-link">
+                    <a class="profile-user d-flex" href=""><img alt=""
+                            src="{{ URL::asset('images/app/me.jpg') }}"></a>
                     <div class="dropdown-menu">
                         <div class="main-header-profile bg-primary p-3">
                             <div class="d-flex wd-100p">
@@ -40,7 +42,8 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="dropdown-item" href="{{ route("user.password-edit") }}"><i class="fa fa-lock"></i>تغير كلمة مرور الحساب</a>
+                        <a class="dropdown-item" href="{{ route('user.password-edit') }}"><i
+                                class="fa fa-lock"></i>تغير كلمة مرور الحساب</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="fas fa-sign-out-alt "></i>
