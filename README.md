@@ -11,20 +11,20 @@
 ## Properties
 
 #### Use For???
- - make a orders and send notification for restaurant and client both
- - many client make many orders for many restaurants 
- - many restaurants have many products and offers can edit update create on it 
- - notification for restaurant if the client ask for a new order
- - notification for client if the restaurant accept his order or not by fireBase service
- - awesome dashboard for admin can control of everything in app by it
- - make a api collection for mobile application
- - it has about 50 api service .
+ - make  orders and send notifications for restaurant and client both
+ - many clients make many orders for many restaurants 
+ - many restaurants have many products and offers that can edit update create on it 
+ - notification for a restaurant if the client asks for a new order
+ - notification for the client if the restaurant accepts his order or not by fireBase service
+ - awesome dashboard for admin can control of everything in-app by it
+ - make an API collection for mobile application
+ - it has about 50 API services.
 
 #### Treat With ??
 
-- It's using to working with mobile app sofra with  api
+- It's using to working with mobile app sofra with  API
 - To show the screen [image](https://drive.google.com/file/d/1JDTj2kXqnWkenzZZaLwcq2cCCmWGbegk/view?usp=sharing)
-- [For get collection  of api , take the link in the post man ](https://www.getpostman.com/collections/7ff3d905e073f9b86e9b)
+- [For get collection  of API, take the link in the postman ](https://www.getpostman.com/collections/7ff3d905e073f9b86e9b)
 
  #### programming language used ??
 - PHP with Framework Laravel 
@@ -34,7 +34,7 @@
  #### More Technical tools  used ??
 - Ajax 
 - Json 
-- gihub
+- github
 - command line
 
  #### Design  Markup and languages used  ??
