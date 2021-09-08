@@ -30,7 +30,7 @@
                             </path>
                         </svg></a>
                 </div>
-                <div class="dropdown main-profile-menu nav nav-item nav-link">
+            <div class="dropdown main-profile-menu nav nav-item nav-link">
                     <a class="profile-user d-flex" href=""><img alt="" src="{{ URL::asset('images/app/me.jpg') }}"></a>
                     <div class="dropdown-menu">
                         <div class="main-header-profile bg-primary p-3">
