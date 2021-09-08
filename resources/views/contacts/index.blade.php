@@ -177,11 +177,14 @@
                 <strong>لا توجد رسائل مستلمه </strong>
             </div>
             @endif
-            <div style="height: 500px;">
-            </div>
         </div>
     </div>
+    </div>
+    </div>
+
     <!-- /row -->
+    <div style="height: 500px;">
+    </div>
 @endsection
 
 @push('js')

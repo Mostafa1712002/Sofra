@@ -96,7 +96,7 @@
                     </div>
                     @if (auth()->user()->can('city-create'))
                         <div class="d-flex justify-content-center mt-2 mb-2">
-                            <button class=" btn btn-info" data-toggle="modal" data-target="#add">
+                            <button  class=" btn btn-primary" data-toggle="modal" data-target="#add">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                 إضافة مدينه جديد</button>
                         </div>
@@ -181,11 +181,13 @@
                 <strong>لا توجد مدن </strong>
             </div>
             @endif
-            <div style="height: 500px;">
-            </div>
         </div>
     </div>
+    </div>
+    </div>
     <!-- /row -->
+    <div style="height: 500px;">
+    </div>
 @endsection
 
 @push('js')

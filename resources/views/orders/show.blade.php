@@ -142,8 +142,9 @@
 
         </div><!-- COL-END -->
     </div>
+</div>
+</div>
     <div style="height: 500px">
-
     </div>
 @endsection
 @push('css')

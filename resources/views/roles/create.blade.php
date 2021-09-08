@@ -35,11 +35,13 @@
             </div>
 
 
-            
+
             <!-- /.card -->
         </div>
     </div>
     <!-- row close -->
+</div>
+</div>
 @endsection
 @push('js')
     <script>

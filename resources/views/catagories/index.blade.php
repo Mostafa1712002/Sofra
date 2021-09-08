@@ -95,7 +95,7 @@
                     </div>
                     @if (auth()->user()->can('category-create'))
                         <div class="d-flex justify-content-center mt-2 mb-2">
-                            <button class=" btn btn-info" data-toggle="modal" data-target="#add">
+                            <button class=" btn btn-primary" data-toggle="modal" data-target="#add">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                 إضافة قسم جديد</button>
                         </div>
@@ -119,11 +119,13 @@
                                                         style="width: 500px;">اسم القسم </th>
                                                     <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
                                                         style="width: 500px;">تاريخ الانشاء</th>
-                                                    <th class=" border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
-                                                        style="width: 500px;">تاريخ التعديل</th>
-                                                        @if (auth()->user()->can("category-destroy")|| auth()->user()->can("category-edit"))
-                                                        <th class="no-after text-center" style="width: 500px;"> العمليات</th>
-                                                        @endif
+                                                    <th class=" border-bottom-0 sorting" tabindex="0" rowspan="1"
+                                                        colspan="1" style="width: 500px;">تاريخ التعديل</th>
+                                                    @if (auth()->user()->can('category-destroy') ||
+        auth()->user()->can('category-edit'))
+                                                        <th class="no-after text-center" style="width: 500px;"> العمليات
+                                                        </th>
+                                                    @endif
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -137,33 +139,34 @@
 
                                                         <td>{{ $record->created_at }}</td>
                                                         <td>{{ $record->updated_at }}</td>
-                                                        @if (auth()->user()->can("category-destroy")||auth()->user()->can("category-edit") )
-                                                        <td>
-                                                            <div class="row text-center">
-                                                                @if (auth()->user()->can("category-edit") )
+                                                        @if (auth()->user()->can('category-destroy') ||
+        auth()->user()->can('category-edit'))
+                                                            <td>
+                                                                <div class="row text-center">
+                                                                    @if (auth()->user()->can('category-edit'))
 
-                                                                <div class="col-6">
-                                                                    <div class=" btn btn-success btn-sm edit"
-                                                                        data-toggle="modal" data-target="#edit"
-                                                                        data-id="{{ $record->id }}">
-                                                                        <i class="fas fa-edit"></i>
-                                                                    </div>
+                                                                        <div class="col-6">
+                                                                            <div class=" btn btn-success btn-sm edit"
+                                                                                data-toggle="modal" data-target="#edit"
+                                                                                data-id="{{ $record->id }}">
+                                                                                <i class="fas fa-edit"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endif
+
+                                                                    @if (auth()->user()->can('category-destroy'))
+                                                                        <div class="col-6">
+                                                                            <div data-token="{{ csrf_token() }}"
+                                                                                data-id="{{ $record->id }}"
+                                                                                data-route="{{ route('category.destroy', $record->id) }}"
+                                                                                class="btn btn-danger btn-sm" id="destroy">
+                                                                                <i class="fas fa-trash "></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endif
+
                                                                 </div>
-                                                                @endif
-
-                                                                @if (auth()->user()->can("category-destroy"))
-                                                                <div class="col-6">
-                                                                    <div data-token="{{ csrf_token() }}"
-                                                                        data-id="{{ $record->id }}"
-                                                                        data-route="{{ route('category.destroy', $record->id) }}"
-                                                                        class="btn btn-danger btn-sm" id="destroy">
-                                                                        <i class="fas fa-trash "></i>
-                                                                    </div>
-                                                                </div>
-                                                                @endif
-
-                                                            </div>
-                                                        </td>
+                                                            </td>
                                                         @endif
                                                     </tr>
                                                 @endforeach
@@ -181,11 +184,13 @@
                 <strong>لا توجد اقسام </strong>
             </div>
             @endif
-            <div style="height: 500px;">
-            </div>
         </div>
     </div>
     <!-- /row -->
+</div>
+</div>
+    <div style="height: 500px;">
+    </div>
 @endsection
 
 @push('js')

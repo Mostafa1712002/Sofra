@@ -93,7 +93,6 @@
     </div>
     <!-- /row -->
 
-
     <!-- row -->
     <div class="row row-sm">
         <div class="col-xl-3 col-lg-6 col-sm-6 col-md-6">
@@ -200,6 +199,7 @@
     <!-- /row -->
     {{-- To Fix smooth --}}
     <div style="height: 100px">
-
     </div>
+</div>
+</div>
 @endsection

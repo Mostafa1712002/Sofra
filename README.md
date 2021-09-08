@@ -31,6 +31,10 @@
 - JavaScript
  #### programming Database used ??
  - MYSQL
+ - to get the database [ click  here  ](https://drive.google.com/file/d/1Oy4U2aGRQq_8yn0oXhI1CwFMeKJe4Cjx/view?usp=sharing) or you can run the migration 
+ - use email:- admin@admingmail.com , Password:- 123456789 if you use this database for admin  with all permissions.
+ - if you run migration you should write every permission from zero and register in a database 
+
  #### More Technical tools  used ??
 - Ajax 
 - Json 

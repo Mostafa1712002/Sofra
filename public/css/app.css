@@ -11,3 +11,7 @@
 .no-after:after{
     content: none !important;
 }
+
+tr td:before {
+    content: none !important;
+}

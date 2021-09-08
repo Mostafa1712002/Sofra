@@ -34,6 +34,8 @@
         </div>
     </div>
     <!-- row close -->
+</div>
+</div>
     {{-- Row for fix smooth --}}
     <div style="height: 200px">
     </div>

@@ -118,13 +118,15 @@
                                                     <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
                                                         style="width: 500px;">اسم المنطقه </th>
 
-                                                    @if (auth()->user()->can('client-active')||auth()->user()->can('client-destroy'))
+                                                    @if (auth()->user()->can('client-active') ||
+        auth()->user()->can('client-destroy'))
                                                         <th class=" text-center border-bottom-0 no-after sorting"
                                                             tabindex="0" rowspan="1" colspan="1" style="width: 800px;">
                                                             @if (auth()->user()->can('client-destroy'))
                                                                 حذف
                                                             @endif
-                                                            @if (auth()->user()->can('client-destroy') &&auth()->user()->can('client-active'))
+                                                            @if (auth()->user()->can('client-destroy') &&
+        auth()->user()->can('client-active'))
                                                                 <b class="text-secondary"> |</b>
                                                             @endif
                                                             @if (auth()->user()->can('client-active'))
@@ -210,7 +212,12 @@
                         <strong>لا يوجد عملاء </strong>
                     </div>
                 @endif
-                <div style="height: 500px;">
-                </div>
-                <!-- /row -->
-            @endsection
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <div style="height: 500px;">
+    </div>
+    <!-- /row -->
+@endsection

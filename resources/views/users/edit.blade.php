@@ -23,14 +23,16 @@
                         $word = 'تعديل';
                         $id = $record->roles->pluck("id");
                     @endphp
-                    
+
                     @include('users.form')
                     {!! Form::close() !!}
                 </div>
             </div>
         </div>
-    </div>  
+    </div>
     <!-- row close -->
+</div>
+</div>
     {{-- Row for fix smooth --}}
     <div style="height: 200px">
     </div>

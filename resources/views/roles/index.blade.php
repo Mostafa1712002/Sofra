@@ -128,6 +128,8 @@
         </div>
     </div>
     <!-- /row -->
+</div>
+</div>
 @endsection
 
 @push('js')

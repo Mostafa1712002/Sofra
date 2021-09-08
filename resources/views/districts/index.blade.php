@@ -110,7 +110,7 @@
                     </div>
                     @if (auth()->user()->can("district-create"))
                     <div class="d-flex justify-content-center mt-2 mb-2">
-                        <button class=" btn btn-info" data-toggle="modal" data-target="#add">
+                        <button class=" btn btn-primary" data-toggle="modal" data-target="#add">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             إضافة منطقه جديد</button>
                     </div>
@@ -200,11 +200,13 @@
                 <strong>لا توجد مناطق  </strong>
             </div>
             @endif
-            <div style="height: 500px;">
-            </div>
         </div>
     </div>
     <!-- /row -->
+</div>
+</div>
+    <div style="height: 500px;">
+    </div>
 @endsection
 
 @push('js')

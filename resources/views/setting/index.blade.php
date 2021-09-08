@@ -74,6 +74,8 @@
     </div>
 </div>
 <!-- row close -->
+</div>
+</div>
 {{-- Row for fix smooth --}}
 <div style="height: 500px">
 </div>

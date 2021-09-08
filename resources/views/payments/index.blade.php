@@ -116,7 +116,8 @@
                                                         colspan="1" style="width: 500px;"> تاريخ الدفع </th>
                                                     <th class="border-bottom-0 sorting" tabindex="0" rowspan="1" colspan="1"
                                                         style="width: 500px;"> المدفوع </th>
-                                                    @if (auth()->user()->can('payment-edit') || auth()->user()->can('payment-destroy'))
+                                                    @if (auth()->user()->can('payment-edit') ||
+        auth()->user()->can('payment-destroy'))
                                                         <th class=" no-after text-center border-bottom-0 sorting"
                                                             tabindex="0" rowspan="1" colspan="1" style="width: 500px;">
                                                             العمليات</th>
@@ -136,27 +137,28 @@
                                                         </td>
                                                         <td>{{ $record->payment_date }}</td>
                                                         <td>{{ $record->paid }}</td>
-                                                        @if (auth()->user()->can('payment-edit') ||auth()->user()->can('payment-destroy'))
+                                                        @if (auth()->user()->can('payment-edit') ||
+        auth()->user()->can('payment-destroy'))
                                                             <td class="text-center">
                                                                 <div class="row">
-                                                                    @if (auth()->user()->can("payment-edit"))
+                                                                    @if (auth()->user()->can('payment-edit'))
 
-                                                                    <div class="col-6">
-                                                                        <a href="{{ route('payment.edit', $record->id) }}"
-                                                                            class=" btn btn-success btn-sm edit">
-                                                                            <i class=" fas fa-edit"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                    @endif
-                                                                    @if (auth()->user()->can("payment-destroy"))
-                                                                    <div class="col-6">
-                                                                        <div data-token="{{ csrf_token() }}"
-                                                                            data-id="{{ $record->id }}"
-                                                                            data-route="{{ route('payment.destroy', $record->id) }}"
-                                                                            class="btn btn-danger btn-sm" id="destroy">
-                                                                            <i class="fas fa-trash "></i>
+                                                                        <div class="col-6">
+                                                                            <a href="{{ route('payment.edit', $record->id) }}"
+                                                                                class=" btn btn-success btn-sm edit">
+                                                                                <i class=" fas fa-edit"></i>
+                                                                            </a>
                                                                         </div>
-                                                                    </div>
+                                                                    @endif
+                                                                    @if (auth()->user()->can('payment-destroy'))
+                                                                        <div class="col-6">
+                                                                            <div data-token="{{ csrf_token() }}"
+                                                                                data-id="{{ $record->id }}"
+                                                                                data-route="{{ route('payment.destroy', $record->id) }}"
+                                                                                class="btn btn-danger btn-sm" id="destroy">
+                                                                                <i class="fas fa-trash "></i>
+                                                                            </div>
+                                                                        </div>
 
                                                                     @endif
                                                                 </div>
@@ -178,11 +180,13 @@
                 <strong>لا توجد مدفوعات </strong>
             </div>
             @endif
-            <div style="height: 500px;">
-            </div>
         </div>
     </div>
     <!-- /row -->
+    </div>
+    </div>
+    <div style="height: 500px;">
+    </div>
 @endsection
 @push('js')
     <script>

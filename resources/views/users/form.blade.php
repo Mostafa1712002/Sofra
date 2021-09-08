@@ -50,7 +50,7 @@
 @inject('listRoles', 'App\Models\Role')
 <div class="form-groups overflow-hidden">
     {!! Form::label('أختر رتبة المستخدم') !!}
-    {!! Form::select('listRoles[]', $listRoles::all()->pluck('display_name', 'id'), $id, ['class' => ' form-control', 'id' => 'formSelect', 'multiple']) !!}
+    {!! Form::select('listRoles[]', $listRoles::all()->pluck('display_name', 'id'), $id, ['class' => 'form-control', 'id' => 'formSelect', 'multiple']) !!}
     @error('listRoles')
         <small style="display: block !important" class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>

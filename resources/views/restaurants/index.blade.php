@@ -127,13 +127,15 @@
                                                     <th class=" no-after border-bottom-0 sorting" tabindex="0" rowspan="1"
                                                         colspan="1" style="width: 500px;">معلومات أكثر </th>
 
-                                                        @if (auth()->user()->can('restaurant-active')||auth()->user()->can('restaurant-destroy'))
+                                                    @if (auth()->user()->can('restaurant-active') ||
+        auth()->user()->can('restaurant-destroy'))
                                                         <th class=" text-center border-bottom-0 no-after sorting"
                                                             tabindex="0" rowspan="1" colspan="1" style="width: 800px;">
                                                             @if (auth()->user()->can('restaurant-destroy'))
                                                                 حذف
                                                             @endif
-                                                            @if (auth()->user()->can('restaurant-destroy') &&auth()->user()->can('restaurant-active'))
+                                                            @if (auth()->user()->can('restaurant-destroy') &&
+        auth()->user()->can('restaurant-active'))
                                                                 <b class="text-secondary"> |</b>
                                                             @endif
                                                             @if (auth()->user()->can('restaurant-active'))
@@ -166,52 +168,53 @@
                                                                 href="{{ route('restaurant.show', $record->id) }}">
                                                                 المزيد....</a>
                                                         </td>
-                                                        @if (auth()->user()->can('restaurant-active') ||auth()->user()->can('restaurant-destroy'))
-                                                        <td>
-                                                            <div class="row">
-                                                                @if (auth()->user()->can('restaurant-destroy'))
-                                                                    <div class="col-6">
-                                                                        <div data-token="{{ csrf_token() }}"
-                                                                            data-id="{{ $record->id }}"
-                                                                            data-route="{{ route('restaurant.destroy', $record->id) }}"
-                                                                            class="btn btn-danger btn-sm" id="destroy">
-                                                                            <i class="fas fa-trash "></i>
+                                                        @if (auth()->user()->can('restaurant-active') ||
+        auth()->user()->can('restaurant-destroy'))
+                                                            <td>
+                                                                <div class="row">
+                                                                    @if (auth()->user()->can('restaurant-destroy'))
+                                                                        <div class="col-6">
+                                                                            <div data-token="{{ csrf_token() }}"
+                                                                                data-id="{{ $record->id }}"
+                                                                                data-route="{{ route('restaurant.destroy', $record->id) }}"
+                                                                                class="btn btn-danger btn-sm" id="destroy">
+                                                                                <i class="fas fa-trash "></i>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                @endif
+                                                                    @endif
 
-                                                                @if (auth()->user()->can('restaurant-active'))
-                                                                    <div class="col-6"
-                                                                        id="active-div{{ $record->id }}">
-                                                                        @if ($record->active == 1)
-                                                                            <div style="cursor: pointer;"
-                                                                                data-token="{{ csrf_token() }}"
-                                                                                data-id="{{ $record->id }}"
-                                                                                data-active="active"
-                                                                                data-route="{{ route('restaurant.active') }}"
-                                                                                class="active- text-info">
-                                                                                <i class="fas fa-check"></i>
-                                                                            </div>
-                                                                        @else
-                                                                            <div style="cursor: pointer;"
-                                                                                data-token="{{ csrf_token() }}"
-                                                                                data-id="{{ $record->id }}"
-                                                                                data-active="de-active"
-                                                                                data-route="{{ route('restaurant.active') }}"
-                                                                                class="active- text-danger">
-                                                                                <i class="fas fa-times"></i>
-                                                                            </div>
-                                                                        @endif
-                                                                    </div>
-                                                                @endif
-                                                            </div>
-                                                        </td>
-                                                    @endif
+                                                                    @if (auth()->user()->can('restaurant-active'))
+                                                                        <div class="col-6"
+                                                                            id="active-div{{ $record->id }}">
+                                                                            @if ($record->active == 1)
+                                                                                <div style="cursor: pointer;"
+                                                                                    data-token="{{ csrf_token() }}"
+                                                                                    data-id="{{ $record->id }}"
+                                                                                    data-active="active"
+                                                                                    data-route="{{ route('restaurant.active') }}"
+                                                                                    class="active- text-info">
+                                                                                    <i class="fas fa-check"></i>
+                                                                                </div>
+                                                                            @else
+                                                                                <div style="cursor: pointer;"
+                                                                                    data-token="{{ csrf_token() }}"
+                                                                                    data-id="{{ $record->id }}"
+                                                                                    data-active="de-active"
+                                                                                    data-route="{{ route('restaurant.active') }}"
+                                                                                    class="active- text-danger">
+                                                                                    <i class="fas fa-times"></i>
+                                                                                </div>
+                                                                            @endif
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
+                                                            </td>
+                                                        @endif
                                                     </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
-                                        {{ $records->links("pagination::bootstrap-4") }}
+                                        {{ $records->links('pagination::bootstrap-4') }}
                                     </div>
                                 </div>
                             </div>
@@ -223,7 +226,12 @@
                 <strong>لا توجد مطاعم </strong>
             </div>
             @endif
-            <div style="height: 500px;">
-            </div>
-            <!-- /row -->
-        @endsection
+        </div>
+    </div>
+    </div>
+    </div>
+    <div style="height: 500px;">
+    </div>
+    <!-- /row -->
+
+@endsection

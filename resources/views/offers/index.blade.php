@@ -167,11 +167,13 @@
                 <strong>لا توجد عروض بعد </strong>
             </div>
             @endif
-            <div style="height: 500px;">
-            </div>
         </div>
     </div>
     <!-- /row -->
+</div>
+</div>
+    <div style="height: 500px;">
+    </div>
 @endsection
 
 @push('js')

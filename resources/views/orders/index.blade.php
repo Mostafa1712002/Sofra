@@ -218,6 +218,10 @@
             <strong>لا توجد طلبات </strong>
         </div>
         @endif
+    </div>
+</div>
+</div>
+
         <div style="height: 500px;">
         </div>
         <!-- /row -->

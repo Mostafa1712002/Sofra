@@ -127,10 +127,12 @@
             <strong>لا يوجد مستخدمين</strong>
         </div>
         @endif
-        <div style="height: 700px;">
-        </div>
     </div>
     <!-- /row -->
+</div>
+</div>
+    <div style="height: 700px;">
+    </div>
 @endsection
 
 @push('js')
