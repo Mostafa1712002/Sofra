@@ -40,7 +40,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="dropdown-item" href="{{ route("user.password-edit") }}"><i class="bx bx-cog"></i>تغير كلمة مرور الحساب</a>
+                        <a class="dropdown-item" href="{{ route("user.password-edit") }}"><i class="fa fa-lock"></i>تغير كلمة مرور الحساب</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="fas fa-sign-out-alt "></i>
