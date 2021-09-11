@@ -17,7 +17,7 @@
                             <div class="col-md-10 col-lg-10 col-xl-9 mx-auto">
                                 <div class="card-sigin">
                                     <div class="mb-5 d-flex"> <a href="{{ url('/home') }}"><img
-                                                src="{{ asset('images/app/logo.png') }}" class="sign-favicon ht-40"
+                                                src="{{ asset('images/app/icon.jpg') }}" class="sign-favicon ht-40"
                                                 alt="logo"></a>
                                         <h1 class="main-logo1 ml-1 mr-2 my-auto tx-28"> تطبيق - <span> سفره</span> </h1>
                                     </div>
