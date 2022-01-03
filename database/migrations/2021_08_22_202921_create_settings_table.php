@@ -10,11 +10,11 @@ class CreateSettingsTable extends Migration {
 	{
 		Schema::create('settings', function(Blueprint $table) {
 			$table->increments('id');
-			$table->timestamps();
 			$table->text('about_us');
 			$table->decimal('commission');
 			$table->string('num_bank_alahli',100);
 			$table->string('num_bank_alrakhi',100);
+			$table->timestamps();
 		});
 	}
 

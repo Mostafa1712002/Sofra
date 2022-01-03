@@ -10,7 +10,6 @@ class CreateProductsTable extends Migration {
 	{
 		Schema::create('products', function(Blueprint $table) {
 			$table->increments('id');
-			$table->timestamps();
 			$table->string('name', 255);
             $table->tinyInteger("active");
 			$table->text('description');
@@ -19,7 +18,7 @@ class CreateProductsTable extends Migration {
 			$table->decimal('price_offer');
 			$table->time('request_time');
 			$table->integer('restaurant_id')->unsigned();
-            $table->foreign("restaurant_id")->references("restaurants")->on("id")->cascadeOnDelete()->cascadeOnUpdate();
+			$table->timestamps();
 		});
 	}
 

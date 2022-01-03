@@ -11,9 +11,6 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
-            $table->foreign("client_id")->references("clients")->on("id")->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreign("restaurant_id")->references("restaurants")->on("id")->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('address', 255);
             $table->enum('payment_method', array('cash', 'online'));
             $table->enum('state', array('pending', 'accepted', 'rejected', 'client_delivered', 'declined',"finished"));
@@ -26,6 +23,7 @@ class CreateOrdersTable extends Migration
             $table->decimal('commission')->nullable();
             $table->text("notes");
             $table->decimal('net')->nullable();
+            $table->timestamps();
         });
     }
 

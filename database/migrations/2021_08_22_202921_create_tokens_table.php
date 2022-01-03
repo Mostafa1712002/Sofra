@@ -10,11 +10,11 @@ class CreateTokensTable extends Migration {
 	{
 		Schema::create('tokens', function(Blueprint $table) {
 			$table->increments('id');
-			$table->timestamps();
 			$table->string('token', 255);
 			$table->enum('platform', array('android', 'ios'));
 			$table->integer('tokable_id')->unsigned();
 			$table->string('tokable_type', 255);
+			$table->timestamps();
 		});
 	}
 

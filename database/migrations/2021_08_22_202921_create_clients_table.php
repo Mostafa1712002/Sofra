@@ -10,7 +10,6 @@ class CreateClientsTable extends Migration {
 	{
 		Schema::create('clients', function(Blueprint $table) {
 			$table->increments('id');
-			$table->timestamps();
             $table->tinyInteger("active");
 			$table->string('name', 255);
 			$table->string('email', 255)->unique();
@@ -19,6 +18,8 @@ class CreateClientsTable extends Migration {
 			$table->string('phone', 255);
 			$table->string('image');
 			$table->integer('district_id')->unsigned();
+			$table->timestamps();
+
 		});
 	}
 

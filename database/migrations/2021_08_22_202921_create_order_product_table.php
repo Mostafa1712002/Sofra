@@ -10,12 +10,12 @@ class CreateOrderProductTable extends Migration {
 	{
 		Schema::create('order_product', function(Blueprint $table) {
 			$table->increments('id');
-			$table->timestamps();
 			$table->integer('product_id')->unsigned();
 			$table->integer('order_id')->unsigned();
 			$table->integer('quantity');
 			$table->decimal('price');
 			$table->text('notes')->nullable();
+			$table->timestamps();
 		});
 	}
 

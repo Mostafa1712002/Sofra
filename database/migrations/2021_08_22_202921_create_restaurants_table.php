@@ -10,7 +10,6 @@ class CreateRestaurantsTable extends Migration {
 	{
 		Schema::create('restaurants', function(Blueprint $table) {
 			$table->increments('id');
-			$table->timestamps();
             $table->tinyInteger("active");
 			$table->string('name', 255)->unique();
 			$table->string('email', 255);
@@ -25,6 +24,7 @@ class CreateRestaurantsTable extends Migration {
 			$table->integer('district_id')->unsigned();
 			$table->string('image', 255);
 			$table->string('password', 255);
+			$table->timestamps();
 		});
 	}
 
