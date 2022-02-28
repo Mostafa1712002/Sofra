@@ -23,9 +23,9 @@ Auth::routes();
 
 Route::group(["middleware" => ["auth", "auto-check-permission"], "namespace" => "Web"], function () {
 
-    // Route::get("/", [HomeController::class, "index"])->name("home");
+    Route::get("/", [HomeController::class, "index"])->name("home");
     // Ingredients of app Routes
-    // Route::resource('order', OrderController::class)->except("index,show");
+    Route::resource('order', OrderController::class)->except("index,show");
     Route::resource('city', CityController::class)->except("edit,create");
     Route::resource('district', DistrictController::class)->except("edit,create");
     Route::resource('category', CategoryController::class)->except("edit,create");
